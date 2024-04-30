@@ -49,7 +49,8 @@ export default {
 			try {
 				const res = await this.login(this.payload);
 				if (res.status === 200) {
-					this.$router.push("/patient-portal");
+					const role = res.data.role;
+					this.$router.push(`/${role}-portal`);
 				}
 			} catch (error) {
 				throw new Error(error);
