@@ -1,6 +1,5 @@
 <template>
 	<div class="my-3 row">
-		{{ user }}
 		<p class="col-4 fw-bold">Account Type</p>
 		<p class="col-8">{{ user.role }}</p>
 	</div>
