@@ -95,7 +95,7 @@ export default {
 			}
 			try {
 				const res = await this.register(this.payload);
-				console.log("res_register", res);
+
 				if (res?.status === 200) {
 					this.payload = {
 						firstname: "",

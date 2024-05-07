@@ -44,10 +44,10 @@ export default {
 		return { payload: { email: "", password: "" } };
 	},
 	methods: {
-		...mapActions(useAuthStore, ["login"]),
+		...mapActions(useAuthStore, ["login"]), // Maps actions to methods
 		async onLogin() {
 			try {
-				const res = await this.login(this.payload);
+				const res = await this.login(this.payload); // Access action using property syntax
 				if (res.status === 200) {
 					const role = res.data.role;
 					this.$router.push(`/${role}-portal`);

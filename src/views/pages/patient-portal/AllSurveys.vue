@@ -7,12 +7,7 @@
 			</button></RouterLink
 		>
 	</div>
-	<div class="row">
-		<div class="col-md-10">
-			<SurveyDetails :surveyData="allData" />
-		</div>
-		<div class="col-md-2"></div>
-	</div>
+	<SurveyDetails :surveyData="allData" :role="Role" />
 </template>
 
 <script>
@@ -23,16 +18,16 @@ import { useUserStore } from "@/store/UserStore";
 export default {
 	components: { SurveyDetails },
 	data() {
-		return { allData: [] };
+		return { allData: [], Role: "" };
 	},
-	methods: { ...mapActions(useUserStore, ["getCreatedDemographics"]) },
+	methods: { ...mapActions(useUserStore, ["getLatestPhase"]) },
 	async mounted() {
 		try {
 			const { role, email } = JSON.parse(localStorage.getItem("userData"));
+			this.Role = role;
 
-			const res = await this.getCreatedDemographics(role, email);
+			const res = await this.getLatestPhase(role, email);
 			if (res?.status === 200) {
-				console.log("res_survey", res);
 				this.allData = [...res.data.data];
 			}
 		} catch (error) {

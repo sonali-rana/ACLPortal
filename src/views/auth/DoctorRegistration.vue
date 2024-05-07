@@ -109,10 +109,9 @@ export default {
 			if (this.payload.password !== this.confirmPassword) {
 				return;
 			}
-			console.log("payload", this.payload);
 			try {
 				const res = await this.register(this.payload);
-				console.log("res_register", res);
+
 				if (res?.status === 200) {
 					this.payload = {
 						firstname: "",

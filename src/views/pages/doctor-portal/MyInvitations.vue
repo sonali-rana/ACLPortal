@@ -24,7 +24,6 @@ export default {
 
 			const res = await this.getCreatedDemographics(role, email);
 			if (res?.status === 200) {
-				console.log("res_survey_1", res);
 				this.allData = [...res.data.data];
 			}
 		} catch (error) {

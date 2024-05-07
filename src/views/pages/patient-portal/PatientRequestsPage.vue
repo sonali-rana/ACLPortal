@@ -1,6 +1,10 @@
 <template>
 	<h4>Requests you've sent</h4>
-	<AllPatients :surveyData="allData" :role="Role" />
+	<AllPatients
+		:surveyData="allData"
+		:role="Role"
+		@getAllSurveys="getAllSurveys"
+	/>
 </template>
 
 <script>
@@ -14,22 +18,26 @@ export default {
 		return { allData: {}, Role: "" };
 	},
 
-	methods: { ...mapActions(useUserStore, ["getCreatedDemographics"]) },
+	methods: {
+		...mapActions(useUserStore, ["getCreatedDemographics"]),
+		async getAllSurveys() {
+			try {
+				const { role, email } = JSON.parse(localStorage.getItem("userData"));
 
-	async mounted() {
-		try {
-			const { role, email } = JSON.parse(localStorage.getItem("userData"));
+				this.Role = role;
 
-			this.Role = role;
-
-			const res = await this.getCreatedDemographics(role, email);
-			if (res?.status === 200) {
-				console.log("res_survey_1", res);
-				this.allData = [...res.data.data];
+				const res = await this.getCreatedDemographics(role, email);
+				if (res?.status === 200) {
+					this.allData = [...res.data.data];
+				}
+			} catch (error) {
+				throw new Error(error);
 			}
-		} catch (error) {
-			throw new Error(error);
-		}
+		},
+	},
+
+	mounted() {
+		this.getAllSurveys();
 	},
 };
 </script>

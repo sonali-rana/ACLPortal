@@ -33,15 +33,18 @@
 		>
 		<button class="btn btn-primary" @click="onSaveChanges">Save Changes</button>
 	</div>
+	<ShowAckErrorMsg />
 </template>
 
 <script>
 import { useUserStore } from "@/store/UserStore";
 import { mapActions } from "pinia";
+import ShowAckErrorMsg from "./ShowAckErrorMsg.vue";
 
 export default {
+	components: { ShowAckErrorMsg },
 	data() {
-		return { user: {} };
+		return { user: {}, allDetails: {} };
 	},
 	methods: {
 		...mapActions(useUserStore, ["onEditUserDetails"]),
@@ -49,7 +52,18 @@ export default {
 			try {
 				const res = await this.onEditUserDetails(this.user);
 				if (res?.status === 200) {
-					//    this.$router.push('/all-surveys')
+					localStorage.setItem(
+						"userData",
+						JSON.stringify({ ...this.allDetails, ...this.user })
+					);
+
+					setTimeout(
+						() =>
+							this.$router.push(
+								`${this.user.role === "patient" ? "patient-details" : "doctor-details"}`
+							),
+						2000
+					);
 				}
 			} catch (error) {
 				throw new Error(error);
@@ -58,6 +72,7 @@ export default {
 	},
 	mounted() {
 		const details = JSON.parse(localStorage.getItem("userData"));
+		this.allDetails = details;
 		const { email, first_name, last_name, phone, role } = details;
 		this.user = { email, first_name, last_name, phone, role };
 	},

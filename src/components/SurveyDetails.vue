@@ -1,35 +1,140 @@
 <template>
-  <div class="row my-4">
-    <div class="col-md-4 my-3" v-for="data in surveyData" :key="data.id" style="height: 200px">
-      <div class="card">
-        <div class="card-header">
-          <h5>Demographics</h5>
-          <p>{{ formatDate(data?.survey_date) }}</p>
-        </div>
-        <div class="card-body">
-          <b> DOB</b> : {{ data.dob }}<br />
-          <b>Main Sport</b> : {{ data.sport }}<br />
-          <b>Injury Date</b> : {{ data.date_of_injury }}<br />
-          <b>Knee</b> : {{ data.date_of_injury }}<br />
-        </div>
-      </div>
-    </div>
-    <div v-if="surveyData?.length === 0" class="my-2">
-      <p>Surveys not present at the moment</p>
-    </div>
-  </div>
+	<div class="d-flex flex-wrap" v-if="!currentForm" style="cursor: pointer">
+		<div class="m-3" v-for="data in surveyData" :key="data.id">
+			<h5 style="display: inline-block">{{ formatDate(data?.survey_date) }}</h5>
+			<button
+				@click="onChangeDoctor(data.id)"
+				style="display: inline-block; margin-left: 120px; color: #fff"
+				class="btn btn-info"
+				data-bs-toggle="modal"
+				data-bs-target="#exampleModal"
+			>
+				Change Doctor
+			</button>
+			<div
+				class="card my-3"
+				style="min-width: 340px"
+				@click="onSelectSurvey(data.id)"
+			>
+				<div class="card-body py-3">
+					<div class="card-title mb-3 d-flex align-items-center">
+						<h4 class="generic">
+							{{
+								data.phase === "Demographics"
+									? "D0"
+									: data.phase === "Pre-Op"
+										? "P0"
+										: data.phase === "Phase 1"
+											? "P1"
+											: data.phase === "Phase 2"
+												? "P2"
+												: data.phase === "Phase 3"
+													? "P3"
+													: "P4"
+							}}
+						</h4>
+						<h4 class="card-title mx-3">
+							{{ data.phase }}
+						</h4>
+					</div>
+
+					<div class="card-text my-1">
+						<div class="row">
+							<div class="col-4"><h6>DOB</h6></div>
+							<div class="col-8">
+								<p>{{ data.dob }}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4"><h6>Main Sport</h6></div>
+							<div class="col-8">
+								<p>{{ data.sport }}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4"><h6>Injury Date</h6></div>
+							<div class="col-8">
+								<p>{{ data.date_of_injury }}</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-4"><h6>Knee</h6></div>
+							<div class="col-8">
+								<p>{{ data.knee }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div v-if="surveyData?.length === 0" class="my-2">
+		<p>Surveys not present at the moment</p>
+	</div>
+	<ChangeDoctor :allDoctors="allDoctors" :doctorList="doctorList" />
 </template>
 
 <script>
+import { mapActions } from "pinia";
+import { useUserStore } from "@/store/UserStore";
+import ChangeDoctor from "./ChangeDoctor.vue";
+
 export default {
-  props: ['surveyData'],
-  methods: {
-    formatDate(date) {
-      if (typeof date !== 'string') return ''
-      else {
-        return date.split('T')[0]
-      }
-    }
-  }
-}
+	components: { ChangeDoctor },
+	props: ["surveyData", "role"],
+	data() {
+		return { allDoctors: [], doctorList: [] };
+	},
+	methods: {
+		...mapActions(useUserStore, ["getDoctorList"]),
+		formatDate(date) {
+			if (typeof date !== "string") return "";
+			else {
+				const timezoneOffset = new Date(date).getTimezoneOffset();
+
+				// Adjust the date by the offset to get local time
+				const localDate = new Date(
+					new Date(date).getTime() + timezoneOffset * 60 * 1000
+				);
+
+				const formattedDate =
+					localDate.toLocaleDateString("en-GB", {
+						day: "2-digit",
+						month: "2-digit",
+						year: "numeric",
+						separator: "/",
+					}) +
+					" , " +
+					localDate.toLocaleTimeString("en-US", {
+						// Use en-US for 12-hour format
+						hour: "2-digit",
+						minute: "2-digit",
+						hour12: true, // Include AM/PM for 12-hour format
+					});
+
+				return formattedDate;
+			}
+		},
+		async onChangeDoctor(id) {
+			try {
+				const res = await this.getDoctorList();
+				if (res?.status === 200) {
+					this.allDoctors = res?.data?.data;
+					const mapDoctorName = this.allDoctors?.map((docObj) => {
+						return docObj?.first_name + " " + docObj?.last_name;
+					});
+					this.doctorList = [...mapDoctorName];
+				}
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
+		onSelectSurvey(id) {
+			this.$router.push({
+				path: `/all-${this.role}-forms`,
+				query: { role: this.role, id },
+			});
+		},
+	},
+};
 </script>
