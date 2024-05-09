@@ -19,7 +19,7 @@
 						<label class="form-label">Date</label>
 					</div>
 					<div class="col-md-4">
-						<input type="date" class="form-control" />
+						<input type="date" class="form-control" v-model="payload.date" />
 					</div>
 				</div>
 
@@ -38,10 +38,18 @@
 						<label class="form-label">Trial 1</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.hop_trial_1_affected"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.hop_trial_1_non_affected"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -49,10 +57,18 @@
 						<label class="form-label">Trial 2</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.hop_trial_2_affected"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.hop_trial_2_non_affected"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -60,10 +76,28 @@
 						<label class="form-label">Average</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							:defaultValue="
+								getAverage(
+									payload.hop_trial_1_affected,
+									payload.hop_trial_2_affected
+								)
+							"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							:defaultValue="
+								getAverage(
+									payload.hop_trial_1_non_affected,
+									payload.hop_trial_2_non_affected
+								)
+							"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -72,7 +106,11 @@
 						<label class="form-label">Limb Symmetry Index</label>
 					</div>
 					<div class="col-md-4">
-						<input type="text" class="form-control" />
+						<input
+							type="text"
+							class="form-control"
+							v-model="payload.hop_symmetry"
+						/>
 					</div>
 				</div>
 
@@ -82,23 +120,31 @@
 						<label class="form-label">Best Baseline Result</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.baseline_result"
+						/>
 					</div>
 					<div class="col-md-2">
 						<label class="form-label">Affected Limb</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.affected_limb"
+						/>
 					</div>
 				</div>
 				<div class="my-3 row">
 					<div class="col-md-2">
 						<label class="form-label">Equal To or Greater Than Baseline</label>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4 d-flex">
 						<RadioButton
-							:options="options"
-							:Key="`gender`"
+							:options="equalOrGreater"
+							:Key="`baseline_eq`"
 							:isDisabled="isDisabled"
 							@onChange="onRadioSelect"
 						/>
@@ -119,10 +165,18 @@
 							<label class="form-label">Trial 1</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.triple_trial_1_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.triple_trial_1_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -130,10 +184,18 @@
 							<label class="form-label">Trial 2</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.triple_trial_2_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.triple_trial_2_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -141,10 +203,28 @@
 							<label class="form-label">Average</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								:defaultValue="
+									getAverage(
+										payload.triple_trial_1_affected,
+										payload.triple_trial_2_affected
+									)
+								"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								:defaultValue="
+									getAverage(
+										payload.triple_trial_1_non_affected,
+										payload.triple_trial_2_non_affected
+									)
+								"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -153,7 +233,11 @@
 							<label class="form-label">Limb Symmetry Index</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" />
+							<input
+								type="text"
+								class="form-control"
+								v-model="payload.triple_symmetry"
+							/>
 						</div>
 					</div>
 
@@ -172,10 +256,18 @@
 							<label class="form-label">Trial 1</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.crossover_trial_1_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.crossover_trial_1_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -183,10 +275,18 @@
 							<label class="form-label">Trial 2</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.crossover_trial_2_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.crossover_trial_2_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -194,10 +294,30 @@
 							<label class="form-label">Average</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								:defaultValue="
+									getAverage(
+										payload.crossover_trial_1_affected,
+										payload.crossover_trial_2_affected
+									)
+								"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								:defaultValue="
+									+payload.crossover_trial_1_non_affected &&
+									+payload.crossover_trial_2_non_affected
+										? (payload.crossover_trial_1_non_affected +
+												payload.crossover_trial_2_non_affected) /
+											2
+										: ''
+								"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -206,7 +326,11 @@
 							<label class="form-label">Limb Symmetry Index</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" />
+							<input
+								type="text"
+								class="form-control"
+								v-model="payload.crossover_symmetry"
+							/>
 						</div>
 					</div>
 
@@ -225,10 +349,18 @@
 							<label class="form-label">Trial 1</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.side_trial_1_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.side_trial_1_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -237,7 +369,11 @@
 							<label class="form-label">Limb Symmetry Index</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" />
+							<input
+								type="text"
+								class="form-control"
+								v-model="payload.side_symmetry"
+							/>
 						</div>
 					</div>
 
@@ -256,10 +392,18 @@
 							<label class="form-label">Repetitions</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.repetitions_affetced"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.repetitions_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -268,7 +412,11 @@
 							<label class="form-label">Limb Symmetry Index</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" />
+							<input
+								type="text"
+								class="form-control"
+								v-model="payload.repetition_symmetry"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -276,13 +424,12 @@
 						<div class="col-md-4">
 							<label class="form-label">Hurdle Requirement</label>
 						</div>
-						<div class="col-md-4">
-							<SelectDropdown
-								:dropdownOptions="mainSport"
-								:defaultOption="`Please select a sport`"
-								:Key="`sport`"
+						<div class="col-md-4 d-flex">
+							<RadioButton
+								:options="hurdle"
+								:Key="`repetition_hurdle`"
 								:isDisabled="isDisabled"
-								@onChange="onChangeSelect"
+								@onChange="onRadioSelect"
 							/>
 						</div>
 					</div>
@@ -302,10 +449,18 @@
 							<label class="form-label">Forward</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.star_forward_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.star_forward_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -314,7 +469,11 @@
 							<label class="form-label">Forward Limb Symmetry</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" />
+							<input
+								type="text"
+								class="form-control"
+								v-model="payload.star_forward_symmetry"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -331,10 +490,18 @@
 							<label class="form-label">Postereomedial</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.postereomedical_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.postereomedical_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -342,10 +509,18 @@
 							<label class="form-label">Postereolateral</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.postereolateral_affected"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								v-model="payload.postereolateral_non_affected"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -353,10 +528,30 @@
 							<label class="form-label">Sum Total</label>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								:defaultValue="
+									+payload.postereolateral_affected &&
+									+payload.postereomedical_affected
+										? payload.postereomedical_affected +
+											payload.postereolateral_affected
+										: ''
+								"
+							/>
 						</div>
 						<div class="col-md-4">
-							<input type="number" class="form-control" />
+							<input
+								type="number"
+								class="form-control"
+								:defaultValue="
+									+payload.postereolateral_non_affected &&
+									+payload.postereomedical_non_affected
+										? payload.postereomedical_non_affected +
+											payload.postereolateral_non_affected
+										: ''
+								"
+							/>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -365,7 +560,11 @@
 							<label class="form-label">Limb Symmetry</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" />
+							<input
+								type="text"
+								class="form-control"
+								v-model="payload.postereo_symmetry"
+							/>
 						</div>
 					</div>
 
@@ -385,18 +584,18 @@
 						</div>
 						<div class="col-md-4">
 							<SelectDropdown
-								:dropdownOptions="mainSport"
-								:defaultOption="`Please select a sport`"
-								:Key="`sport`"
+								:dropdownOptions="side_affected"
+								:defaultOption="``"
+								:Key="`cooper_side_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
 							/>
 						</div>
 						<div class="col-md-4">
 							<SelectDropdown
-								:dropdownOptions="mainSport"
-								:defaultOption="`Please select a sport`"
-								:Key="`sport`"
+								:dropdownOptions="side_non_affected"
+								:defaultOption="``"
+								:Key="`cooper_side_non_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
 							/>
@@ -408,18 +607,18 @@
 						</div>
 						<div class="col-md-4">
 							<SelectDropdown
-								:dropdownOptions="mainSport"
-								:defaultOption="`Please select a sport`"
-								:Key="`sport`"
+								:dropdownOptions="up_affected"
+								:defaultOption="``"
+								:Key="`cooper_up_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
 							/>
 						</div>
 						<div class="col-md-4">
 							<SelectDropdown
-								:dropdownOptions="mainSport"
-								:defaultOption="`Please select a sport`"
-								:Key="`sport`"
+								:dropdownOptions="up_non_affected"
+								:defaultOption="``"
+								:Key="`cooper_up_non_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
 							/>
@@ -435,7 +634,11 @@
 						<label class="form-label">Bodyweight (Kgs)</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.weight"
+						/>
 					</div>
 				</div>
 				<h6>Single Leg Press 1RM</h6>
@@ -453,10 +656,18 @@
 						<label class="form-label">Affected Limb</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.leg_rm_affected"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.leg_weight_affected"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -464,10 +675,18 @@
 						<label class="form-label">Non-affected Limb</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.leg_rm_non_affected"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.leg_weight_non_affected"
+						/>
 					</div>
 				</div>
 				<h6>Squat 1RM</h6>
@@ -485,16 +704,27 @@
 						<label class="form-label">Squat</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.squat_rm"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.squat_weight"
+						/>
 					</div>
 				</div>
 			</div>
 
 			<div class="d-flex justify-content-between" style="margin-top: 20px">
-				<button class="btn btn-outline-secondary" @click="onCancel">
+				<button
+					class="btn btn-outline-secondary"
+					@click="$router.push('/doctor-portal')"
+				>
 					Cancel
 				</button>
 				<div>
@@ -586,16 +816,124 @@ export default {
 	components: { SelectDropdown, RadioButton },
 	data() {
 		return {
-			mainSport: [],
-			options: [
-				{ name: "Male", isChecked: false },
-				{ name: "Female", isChecked: false },
+			equalOrGreater: [
+				{ name: "Pass", isChecked: false },
+				{ name: "Fail", isChecked: false },
 			],
+			hurdle: [
+				{ name: "Pass", isChecked: false },
+				{ name: "Fail", isChecked: false },
+			],
+			side_affected: ["Pass", "Fail"],
+			side_non_affected: ["Pass", "Fail"],
+			up_affected: ["Pass", "Fail"],
+			up_non_affected: ["Pass", "Fail"],
+			payload: {
+				date: "",
+				hop_trial_1_affected: "",
+				hop_trial_1_non_affected: "",
+				hop_trial_2_affected: "",
+				hop_trial_2_non_affected: "",
+				hop_symmetry: "",
+				baseline_result: "",
+				affected_limb: "",
+				baseline_eq: "",
+				triple_trial_1_affected: "",
+				triple_trial_1_non_affected: "",
+				triple_trial_2_affected: "",
+				triple_trial_2_non_affected: "",
+				triple_symmetry: "",
+				crossover_trial_1_affected: "",
+				crossover_trial_1_non_affected: "",
+				crossover_trial_2_affected: "",
+				crossover_trial_2_non_affected: "",
+				crossover_symmetry: "",
+				side_trial_1_affected: "",
+				side_trial_1_non_affected: "",
+				side_symmetry: "",
+				repetitions_affetced: "",
+				repetitions_non_affected: "",
+				repetition_symmetry: "",
+				repetition_hurdle: "",
+				star_forward_affected: "",
+				star_forward_non_affected: "",
+				star_forward_symmetry: "",
+				postereomedical_affected: "",
+				postereomedical_non_affected: "",
+				postereolateral_affected: "",
+				postereolateral_non_affected: "",
+				postereo_symmetry: "",
+				cooper_side_affected: "",
+				cooper_side_non_affected: "",
+				cooper_up_affected: "",
+				cooper_up_non_affected: "",
+				weight: "",
+				leg_affected: "",
+				leg_non_affected: "",
+				squat_rm: "",
+				squat_weight: "",
+				leg_rm_affected: "",
+				leg_weight_affected: "",
+				leg_rm_non_affected: "",
+				leg_weight_non_affected: "",
+			},
 		};
 	},
 	setup() {},
+
 	methods: {
-		onChangeSelect() {},
+		getAverage(val1, val2) {
+			return val1.toString().length && val2.toString.length
+				? (val1 + val2) / 2
+				: "";
+		},
+		onChangeSelect(key, value) {
+			let array =
+				key === "cooper_side_affected"
+					? this.side_affected
+					: key === "cooper_side_non_affected"
+						? this.side_non_affected
+						: key === "cooper_up_affected"
+							? this.up_affected
+							: this.up_non_affected;
+
+			const selectedData = array.filter((option) => option === value)[0];
+
+			this.payload[key] = selectedData;
+		},
+		onRadioSelect(key, value) {
+			let array = key === "baseline_eq" ? this.equalOrGreater : this.hurdle;
+
+			const new_list = array.map((option) => {
+				return { ...option, isChecked: option.name === value };
+			});
+
+			array = [...new_list];
+
+			const selectedData = array.filter((option) => option.isChecked)[0]?.name;
+
+			key === "baseline_eq"
+				? (this.equalOrGreater = [...new_list])
+				: (this.hurdle = [...new_list]);
+
+			this.payload[key] = selectedData;
+		},
+		async onFinalize() {
+			try {
+				this.payload = {
+					...this.payload,
+					percentage: 100,
+					draft: false,
+					phase: "Phase 3",
+				};
+				const res = await this.onCreatePhase(this.payload);
+				if (res?.status === 200) {
+					this.$router.push("/doctor-portal");
+				}
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
 	},
 	mounted() {
 		const inputElements = document.querySelectorAll(`input.form-control`);

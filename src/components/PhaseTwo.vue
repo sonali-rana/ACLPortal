@@ -27,8 +27,25 @@
 				</div>
 
 				<div class="mb-3 row">
-					<div class="col-md-2">
-						<label class="form-label">Prone Hang Test (cm)</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Prone Hang Test (cm)</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup">
+							<h5>Passive Knee Extension</h5>
+							<br />
+							<p>Prone hang test (Sachs et al, 1989)</p>
+							<br />
+							<p>
+								Subjects lie prone on a treatment bed with the lower legs off
+								the end allowing full passive knee extension. The heel height
+								difference is measured (approx 1cm = 1°)
+							</p>
+							<br />
+							<p class="fw-bold">Goal: Equal to the other side</p>
+						</PopUp>
 					</div>
 					<div class="col-md-4">
 						<input
@@ -37,8 +54,24 @@
 							v-model="payload.prone_hang"
 						/>
 					</div>
-					<div class="col-md-2">
-						<label class="form-label">Passive Knee Flexion (Degrees)</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Passive Knee Flexion (Degrees)</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup1.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup1">
+							<h5>Passive Knee Flexion</h5>
+							<br />
+							<p>Supine with a long arm goniometer (Norkin & White, 1995).</p>
+							<br />
+							<p>
+								Bony landmarks: greater trochanter, the lateral femoral condyle,
+								and the lateral mallelous.
+							</p>
+							<br />
+							<p class="fw-bold">Goal: 125+</p>
+						</PopUp>
 					</div>
 					<div class="col-md-4">
 						<input
@@ -50,8 +83,30 @@
 				</div>
 
 				<div class="mb-3 row">
-					<div class="col-md-2">
-						<label class="form-label">Swelling/Effusion</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Swelling/ Effusion</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup2.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup2"
+							><h5>Swelling/Effusion</h5>
+							<br />
+							<p>Stroke Test (Sturgill et al, 2009)</p>
+							<br />
+							<p>Zero: No wave produced on downstroke</p>
+							<p>Trace: Small wave on medial side with downstroke</p>
+							<p>1+: Large bulge on medial side with downstroke</p>
+							<p>
+								2+: Effusion spontaneously returns to medial side after upstroke
+							</p>
+							<p>
+								3+: So much fluid that it is not possible to move the effusion
+								out of the medial aspect of the knee
+							</p>
+							<br />
+							<p class="fw-bold">Goal: Zero — 1+</p></PopUp
+						>
 					</div>
 					<div class="col-md-4">
 						<SelectDropdown
@@ -62,8 +117,42 @@
 							@onChange="onChangeSelect"
 						/>
 					</div>
-					<div class="col-md-2">
-						<label class="form-label">Functional Alignment Test</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Functional Alignment Test</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup3.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup3"
+							><h5>Functional Alignment Test</h5>
+							<br />
+							<p>Single leg squat test (Crossley et al, 2011)</p>
+							<br />
+							<p>
+								Subjects stand on one leg on a 20cm box with arms crossed. 5 x
+								single leg squats are performed in a slow controlled manner (at
+								a rate of 2 seconds per squat). The task is rated as “good”,
+								“fair” or “poor”. For a subject to be rated “good”;
+							</p>
+							<ul>
+								<li>Maintain balance</li>
+								<li>Perform the movement smoothly</li>
+								<li>Squat must be to at least 60 degrees</li>
+								<li>
+									No trunk movement (lateral deviation, rotation, lateral
+									flexion, forward flexion)
+								</li>
+								<li>
+									No pelvic movement (shunt or lateral deviation, rotation, or
+									tilt)
+								</li>
+								<li>No hip adduction or internal rotation</li>
+								<li>No knee valgus</li>
+								<li>Centre of knee remains over centre of foot</li>
+							</ul>
+							<br />
+							<p class="fw-bold">Goal: Good</p></PopUp
+						>
 					</div>
 					<div class="col-md-4">
 						<SelectDropdown
@@ -76,7 +165,34 @@
 					</div>
 				</div>
 
-				<h5>Single Leg Bridge Test</h5>
+				<div>
+					<h5>
+						Single Leg Bridge Test
+						<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup4.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup4"
+						><h5>Single Leg Bridges</h5>
+						<br />
+						<p>Single leg bridge test *variation (Freckleton et al, 2013)</p>
+						<br />
+						<p>
+							Subjects lie supine on the floor with one heel on a box or plinth
+							at 60cm high. The knee of the test leg is slightly bent at 20° and
+							opposite leg is bent to 90° hip and knee flexion with their arms
+							crossed over chest. Subjects elevate the hips as high as possible
+							and the assessor places a hand at this height. Repeat this action
+							as many times as possible touching the assessors hand each time.
+							The test concludes when the subject is unable to bridge to the
+							original height (assessors hand).
+						</p>
+						<br />
+						<p class="fw-bold">Goal: > 85% compared with other side</p>
+						<p class="fw-bold">Hurdle requirement = >20 repetitions</p></PopUp
+					>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -133,7 +249,31 @@
 					</div>
 				</div>
 
-				<h5>Single Leg Calf Raises Test</h5>
+				<div>
+					<h5>
+						Single Leg Calf Raises Test
+						<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup5.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup5"
+						><h5>Calf Raises</h5>
+						<br />
+						<p>Single leg calf raises (Hebert et al, 2017)</p>
+						<br />
+						<p>
+							Subjects stand on one foot on the edge of the step and perform a
+							calf raise through full range of motion. Calf raises are performed
+							at 1 repetition every 2 seconds. The test concludes when subjects
+							are unable to move through full range or slow below the cadence
+							outlined above.
+						</p>
+						<br />
+						<p class="fw-bold">Goal: > 85% compared with other side</p>
+						<p class="fw-bold">Hurdle requirement = >20 repetitions</p></PopUp
+					>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -190,7 +330,30 @@
 					</div>
 				</div>
 
-				<h5>Side Endurance Test</h5>
+				<div>
+					<h5>
+						Side Endurance Test<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup6.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup6"
+						><h5>Side Bridge Endurance Test</h5>
+						<br />
+						<p>Side bridge test (McGill et al, 1999)</p>
+						<br />
+						<p>
+							Subjects lie on an exercise mat on their side with legs extended.
+							The top foot is placed in front on the lower foot, then subjects
+							lift their hips off the mat to maintain a straight line over their
+							full body length for as long as able. The test (time) ends when
+							the hips return to the mat.
+						</p>
+						<br />
+						<p class="fw-bold">Goal: > 85% compared with other side</p>
+						<p class="fw-bold">Hurdle requirement 30 seconds</p></PopUp
+					>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -247,7 +410,34 @@
 					</div>
 				</div>
 
-				<h5>Single Leg Rise Test</h5>
+				<div>
+					<h5>
+						Single Leg Rise Test<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup7.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup7"
+						><h5>Single Leg Squat</h5>
+						<br />
+						<p>
+							Single Leg Rise Test (Culvenor et al., 2016 & Thorstensson et al.,
+							2004)
+						</p>
+						<br />
+						<p>
+							Subjects sit on a chair (or a plinth) with test leg bent to 90deg,
+							and 10cm from edge of chair. With hands folded across the chest,
+							the subject aims to stand up from the sitting position, and sit
+							down as many times as possible.
+						</p>
+						<br />
+						<p class="fw-bold">Goal: > 85% compared with other side</p>
+						<p class="fw-bold">
+							Hurdle requirement >10 repetitions each leg
+						</p></PopUp
+					>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -524,6 +714,7 @@
 </template>
 
 <script>
+import PopUp from "./PopUp.vue";
 import SelectDropdown from "./SelectDropdown.vue";
 import { useUserStore } from "@/store/UserStore";
 import { mapActions } from "pinia";
@@ -531,7 +722,7 @@ import RadioButton from "./RadioButton.vue";
 
 export default {
 	props: ["isDisabled"],
-	components: { SelectDropdown, RadioButton },
+	components: { SelectDropdown, RadioButton, PopUp },
 	data() {
 		return {
 			swelling: ["Zero", "Trace", "1+", "2+", "3+"],
@@ -659,7 +850,7 @@ export default {
 				};
 				const res = await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
 				throw new Error(error);

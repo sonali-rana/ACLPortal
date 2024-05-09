@@ -49,7 +49,7 @@
 				</div>
 				<div class="mb-3 row">
 					<div class="col-md-2">
-						<label class="form-label">Swelling/Effusion</label>
+						<label class="form-label">Swelling/ Effusion</label>
 					</div>
 					<div class="col-md-4">
 						<SelectDropdown
@@ -61,7 +61,33 @@
 						/>
 					</div>
 				</div>
-				<h5>Strength Hamstrings</h5>
+				<div>
+					<h5>
+						Strength Hamstrings
+						<i
+							class="bi bi-info-square mx-2 fs-5"
+							@click="$refs.infoPopup1.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup1">
+						<h5>Strength</h5>
+						<br />
+						<p>Hand held dynamometer testing (Mentiplay et al, 2015)</p>
+						<br />
+						<p>
+							Quads: Participant seated and hip and knees flexed at 90°.
+							Dynamometer placed on the anterior aspect of the shank, proximal
+							to the ankle joint.
+						</p>
+						<p>
+							Hamstrings: Participant seated and hips and knees flexed at 90°.
+							Dynamometer placed on the posterior aspect of the shank, proximal
+							to the ankle joint.
+						</p>
+						<br />
+						<p class="fw-bold">Goal: 90% compared with other side</p>
+					</PopUp>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -103,7 +129,35 @@
 						/>
 					</div>
 				</div>
-				<h5>Single Hop Test</h5>
+				<div>
+					<h5>
+						Single Hop Test
+						<i
+							class="bi bi-info-square mx-2 fs-5"
+							@click="$refs.infoPopup.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup">
+						<h5>Single Hop Test</h5>
+						<br />
+						<p>Single leg hop test (Reid et al, 2007)</p>
+						<br />
+						<p>
+							Subjects stand on one leg and hop as far forward as possible and
+							land on the same leg. The distance is recorded from toe at
+							take-off to heel at landing with a tape measure which is fixed to
+							the ground. Two valid hops are performed, with the average (mean)
+							of the 2 being used for calculation.
+						</p>
+						<p>
+							A limb symmetry index is calculated by dividing the mean distance
+							(cms) of the involved limb by the mean distance of the non
+							involved limb then multiplying by 100.
+						</p>
+						<br />
+						<p class="fw-bold">Goal: 90% compared with other side</p>
+					</PopUp>
+				</div>
 				<div class="my-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -121,11 +175,15 @@
 						<input
 							type="number"
 							class="form-control"
-							v-model="payload.hop_trial_1"
+							v-model="payload.hop_trial_1_affected"
 						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" v-model="payload.date" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.hop_trial_1_non_affected"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -136,11 +194,15 @@
 						<input
 							type="number"
 							class="form-control"
-							v-model="payload.hop_trial_1"
+							v-model="payload.hop_trial_2_affected"
 						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" v-model="payload.date" />
+						<input
+							type="number"
+							class="form-control"
+							v-model="payload.hop_trial_2_non_affected"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -148,10 +210,31 @@
 						<label class="form-label">Average</label>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" v-model="payload.date" />
+						<input
+							type="number"
+							class="form-control"
+							:defaultValue="
+								+payload.hop_trial_1_affected && +payload.hop_trial_2_affected
+									? (payload.hop_trial_1_affected +
+											payload.hop_trial_2_affected) /
+										2
+									: ''
+							"
+						/>
 					</div>
 					<div class="col-md-4">
-						<input type="number" class="form-control" v-model="payload.date" />
+						<input
+							type="number"
+							class="form-control"
+							:defaultValue="
+								+payload.hop_trial_1_non_affected &&
+								+payload.hop_trial_2_non_affected
+									? (payload.hop_trial_1_non_affected +
+											payload.hop_trial_2_non_affected) /
+										2
+									: ''
+							"
+						/>
 					</div>
 				</div>
 				<div class="mb-3 row">
@@ -246,12 +329,13 @@
 
 <script>
 import SelectDropdown from "./SelectDropdown.vue";
+import PopUp from "./PopUp.vue";
 import { useUserStore } from "@/store/UserStore";
 import { mapActions } from "pinia";
 
 export default {
 	props: ["isDisabled"],
-	components: { SelectDropdown },
+	components: { SelectDropdown, PopUp },
 	data() {
 		return {
 			swelling: ["Zero", "Trace", "1+", "2+", "3+"],
@@ -263,8 +347,10 @@ export default {
 				dynamometer_affected: "",
 				dynamometer_non_affected: "",
 				dynamometer_symmetry: "",
-				hop_trial_1: "",
-				hop_trial_2: "",
+				hop_trial_1_affected: "",
+				hop_trial_1_non_affected: "",
+				hop_trial_2_affected: "",
+				hop_trial_2_non_affected: "",
 				hop_symmetry: "",
 			},
 		};
@@ -289,7 +375,7 @@ export default {
 				};
 				const res = await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
 				throw new Error(error);

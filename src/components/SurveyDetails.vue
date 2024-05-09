@@ -3,11 +3,11 @@
 		<div class="m-3" v-for="data in surveyData" :key="data.id">
 			<h5 style="display: inline-block">{{ formatDate(data?.survey_date) }}</h5>
 			<button
-				@click="onChangeDoctor(data.id)"
+				@click="onChangeDoctor(data)"
 				style="display: inline-block; margin-left: 120px; color: #fff"
 				class="btn btn-info"
 				data-bs-toggle="modal"
-				data-bs-target="#exampleModal"
+				data-bs-target="#Modal"
 			>
 				Change Doctor
 			</button>
@@ -71,7 +71,12 @@
 	<div v-if="surveyData?.length === 0" class="my-2">
 		<p>Surveys not present at the moment</p>
 	</div>
-	<ChangeDoctor :allDoctors="allDoctors" :doctorList="doctorList" />
+	<ChangeDoctor
+		:allDoctors="allDoctors"
+		:doctorList="doctorList"
+		:id="id"
+		:selectedDoctor="doctor"
+	/>
 </template>
 
 <script>
@@ -83,7 +88,7 @@ export default {
 	components: { ChangeDoctor },
 	props: ["surveyData", "role"],
 	data() {
-		return { allDoctors: [], doctorList: [] };
+		return { allDoctors: [], doctorList: [], id: "", doctor: "" };
 	},
 	methods: {
 		...mapActions(useUserStore, ["getDoctorList"]),
@@ -115,7 +120,7 @@ export default {
 				return formattedDate;
 			}
 		},
-		async onChangeDoctor(id) {
+		async onChangeDoctor(data) {
 			try {
 				const res = await this.getDoctorList();
 				if (res?.status === 200) {
@@ -124,6 +129,9 @@ export default {
 						return docObj?.first_name + " " + docObj?.last_name;
 					});
 					this.doctorList = [...mapDoctorName];
+					console.log("data", data);
+					this.id = data.id;
+					this.doctor = data.doctor;
 				}
 			} catch (error) {
 				throw new Error(error);

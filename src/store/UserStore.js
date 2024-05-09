@@ -130,5 +130,24 @@ export const useUserStore = defineStore("authStore", {
 				setTimeout(() => (this.status = null), 2000);
 			}
 		},
+
+		async onChangeDoctor(payload) {
+			try {
+				const res = await API.put(`/change_doctor/`, payload);
+
+				if (res.status === 200) {
+					this.status = true;
+					this.msg = res.data.message ?? res.message;
+				} else {
+					this.status = false;
+					this.msg = res.data.message ?? res.message;
+				}
+				return res;
+			} catch (error) {
+				throw new Error(error);
+			} finally {
+				setTimeout(() => (this.status = null), 2000);
+			}
+		},
 	},
 });

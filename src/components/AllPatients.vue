@@ -23,7 +23,7 @@
 				</td>
 				<td>
 					<button class="btn btn-danger" @click="onDelete(data.id)">
-						Delete
+						Decline
 					</button>
 				</td>
 			</tr>

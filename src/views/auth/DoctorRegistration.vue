@@ -70,7 +70,7 @@
 					</div>
 					<div class="col">
 						<label class="form-label">License Number</label>
-						<input type="text" class="form-control" />
+						<input type="text" class="form-control" v-model="payload.license" />
 					</div>
 				</div>
 			</div>
@@ -99,6 +99,7 @@ export default {
 				phone: "",
 				password: "",
 				experience: null,
+				license: "",
 				role: "doctor",
 			},
 		};

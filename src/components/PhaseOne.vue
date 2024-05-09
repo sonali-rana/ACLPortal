@@ -44,8 +44,24 @@
 					</div>
 				</div>
 				<div class="mb-3 row">
-					<div class="col-md-2">
-						<label class="form-label">Passive Knee Extension (Degrees)</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Passive Knee Extension (Degrees)</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup">
+							<h5>Passive Knee Extension</h5>
+							<br />
+							<p>Supine with a long arm goniometer (Norkin & White, 1995).</p>
+							<br />
+							<p>
+								Bony landmarks: greater trochanter, the lateral femoral condyle,
+								and the lateral mallelous.
+							</p>
+							<br />
+							<p class="fw-bold">Goal: 0°</p>
+						</PopUp>
 					</div>
 					<div class="col-md-4">
 						<input
@@ -54,8 +70,24 @@
 							v-model="payload.passive_extension"
 						/>
 					</div>
-					<div class="col-md-2">
-						<label class="form-label">Passive Knee Flexion (Degrees)</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Passive Knee Flexion (Degrees)</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup1.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup1">
+							<h5>Passive Knee Flexion</h5>
+							<br />
+							<p>Supine with a long arm goniometer (Norkin & White, 1995).</p>
+							<br />
+							<p>
+								Bony landmarks: greater trochanter, the lateral femoral condyle,
+								and the lateral mallelous.
+							</p>
+							<br />
+							<p class="fw-bold">Goal: 125+</p>
+						</PopUp>
 					</div>
 					<div class="col-md-4">
 						<input
@@ -66,8 +98,30 @@
 					</div>
 				</div>
 				<div class="mb-3 row">
-					<div class="col-md-2">
-						<label class="form-label">Swelling/Effusion</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Swelling/ Effusion</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup2.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup2"
+							><h5>Swelling/Effusion</h5>
+							<br />
+							<p>Stroke Test (Sturgill et al, 2009)</p>
+							<br />
+							<p>Zero: No wave produced on downstroke</p>
+							<p>Trace: Small wave on medial side with downstroke</p>
+							<p>1+: Large bulge on medial side with downstroke</p>
+							<p>
+								2+: Effusion spontaneously returns to medial side after upstroke
+							</p>
+							<p>
+								3+: So much fluid that it is not possible to move the effusion
+								out of the medial aspect of the knee
+							</p>
+							<br />
+							<p class="fw-bold">Goal: Zero — 1+</p></PopUp
+						>
 					</div>
 					<div class="col-md-4">
 						<SelectDropdown
@@ -78,8 +132,28 @@
 							@onChange="onChangeSelect"
 						/>
 					</div>
-					<div class="col-md-2">
-						<label class="form-label">Quads Lag Test (Degrees)</label>
+					<div class="col-md-2 d-flex">
+						<label class="form-label">Quads Lag Test (Degrees)</label
+						><i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup3.showPopup = true"
+						></i>
+						<PopUp ref="infoPopup3"
+							><h5>Strength</h5>
+							<br />
+							<p>Quadriceps lag test *variation (Stillman, 2004)</p>
+							<br />
+							<p>
+								With the patient sitting on the edge of a treatment bed, the
+								therapist takes the relaxed knee into full passive extension.
+							</p>
+							<p>
+								The patient is then required to maintain full active extension
+								of the knee when the therapist removes support.
+							</p>
+							<br />
+							<p class="fw-bold">Goal: 0 — 5 lag</p></PopUp
+						>
 					</div>
 					<div class="col-md-4">
 						<input type="number" class="form-control" v-model="payload.quads" />
@@ -143,12 +217,13 @@
 </template>
 
 <script>
+import PopUp from "./PopUp.vue";
 import SelectDropdown from "./SelectDropdown.vue";
 import { useUserStore } from "@/store/UserStore";
 import { mapActions } from "pinia";
 
 export default {
-	components: { SelectDropdown },
+	components: { SelectDropdown, PopUp },
 	props: ["isDisabled"],
 	data() {
 		return {
@@ -183,7 +258,7 @@ export default {
 				};
 				const res = await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
 				throw new Error(error);
