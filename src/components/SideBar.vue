@@ -24,6 +24,7 @@ export default {
 	methods: {
 		currentPath() {
 			this.path = window.location.pathname;
+		},
 	},
 	computed: {},
 	mounted() {},
