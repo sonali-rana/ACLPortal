@@ -5,7 +5,7 @@
 				<th scope="col"><b>Name</b></th>
 				<th scope="col"><b>Email</b></th>
 				<th scope="col"><b>Date Sent</b></th>
-				<th scope="col"><b>Accepted</b></th>
+				<th scope="col"><b>Actions</b></th>
 				<th scope="col"></th>
 				<th scope="col" v-if="role === 'doctor'"></th>
 			</tr>
@@ -15,17 +15,24 @@
 				<td>{{ data.patient_name }}</td>
 				<td>{{ data.patient_email }}</td>
 				<td>{{ formatDate(data.survey_date) }}</td>
-				<td>No</td>
-				<td scope="col" v-if="role === 'doctor'">
-					<button class="btn btn-success" @click="onAccept(data.id)">
-						Accept
-					</button>
-				</td>
-				<td>
-					<button class="btn btn-danger" @click="onDelete(data.id)">
+				<!-- <td>No</td> -->
+				<td scope="col">
+					<span v-if="role === 'doctor'"
+						><button
+							class="btn btn-success btn-sm fw-bold mb-1"
+							@click="onAccept(data.id)"
+						>
+							Accept</button
+						><br
+					/></span>
+					<button
+						class="btn btn-danger btn-sm fw-bold"
+						@click="onDelete(data.id)"
+					>
 						Decline
 					</button>
 				</td>
+				<td></td>
 			</tr>
 		</tbody>
 	</table>

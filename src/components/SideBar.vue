@@ -27,6 +27,9 @@ export default {
 		},
 	},
 	computed: {},
-	mounted() {},
+	mounted() {
+		console.log("called", window.location.pathname);
+		this.path = window.location.pathname;
+	},
 };
 </script>
