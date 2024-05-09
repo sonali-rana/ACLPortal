@@ -1,6 +1,6 @@
 <template>
-	<table class="table my-4">
-		<thead>
+	<table class="table" style="width: 80%">
+		<thead style="height: 80px; color: rgba(0, 119, 182, 0.9) !important">
 			<tr class="fw-bold">
 				<th scope="col"><b>Name</b></th>
 				<th scope="col"><b>Email</b></th>

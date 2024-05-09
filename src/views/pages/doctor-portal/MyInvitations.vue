@@ -1,6 +1,10 @@
 <template>
-	<h4 class="my-4">Invitations you've received</h4>
-	<AllPatients :surveyData="allData" :role="Role" />
+	<h4>Invitations you've received</h4>
+	<AllPatients
+		:surveyData="allData"
+		:role="Role"
+		@getAllSurveys="getAllSurveys"
+	/>
 </template>
 
 <script>
@@ -14,21 +18,26 @@ export default {
 		return { allData: {}, Role: "" };
 	},
 
-	methods: { ...mapActions(useUserStore, ["getCreatedDemographics"]) },
+	methods: {
+		...mapActions(useUserStore, ["getCreatedDemographics"]),
+		async getAllSurveys() {
+			try {
+				const { role, email } = JSON.parse(localStorage.getItem("userData"));
 
-	async mounted() {
-		try {
-			const { role, email } = JSON.parse(localStorage.getItem("userData"));
+				this.Role = role;
 
-			this.Role = role;
-
-			const res = await this.getCreatedDemographics(role, email);
-			if (res?.status === 200) {
-				this.allData = [...res.data.data];
+				const res = await this.getCreatedDemographics(role, email);
+				if (res?.status === 200) {
+					this.allData = [...res.data.data];
+				}
+			} catch (error) {
+				throw new Error(error);
 			}
-		} catch (error) {
-			throw new Error(error);
-		}
+		},
+	},
+
+	mounted() {
+		this.getAllSurveys();
 	},
 };
 </script>
