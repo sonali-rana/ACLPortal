@@ -16,7 +16,10 @@
 	</div>
 	<div class="row">
 		<div class="col-8">
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<div class="mb-3 row">
 					<div class="col-md-2">
 						<label class="form-label">Date</label>
@@ -111,7 +114,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="swelling"
-							:defaultOption="``"
+							:defaultOption="payload.swelling || ``"
 							:Key="`swelling`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -157,7 +160,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="functionalAlignment"
-							:defaultOption="``"
+							:defaultOption="payload.functional_alignment || ``"
 							:Key="`functional_alignment`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -565,7 +568,10 @@
 				</div>
 			</div>
 
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<h5>Supplementary Goals</h5>
 				<div class="my-3 row">
 					<div class="col-md-4">
@@ -658,16 +664,24 @@
 					Cancel
 				</button>
 				<div>
-					<button class="btn btn-outline-secondary" @click="onSavetoDrafts">
+					<button
+						class="btn btn-outline-secondary"
+						@click="onSavetoDrafts"
+						:disabled="isDisabled"
+					>
 						Save
 					</button>
-					<button class="btn btn-primary ml2" @click="onFinalize">
+					<button
+						class="btn btn-primary ml2"
+						@click="onFinalize"
+						:disabled="isDisabled"
+					>
 						Finalize
 					</button>
 				</div>
 			</div>
 		</div>
-		<div class="col-3" style="font-size: 12px">
+		<div class="col-3 info-component" style="font-size: 12px">
 			<h5>Phase 2: Strength and neuromuscular control</h5>
 			<hr />
 			<p>Related Documents</p>
@@ -721,7 +735,7 @@ import { mapActions } from "pinia";
 import RadioButton from "./RadioButton.vue";
 
 export default {
-	props: ["isDisabled"],
+	props: ["isDisabled", "fields", "role"],
 	components: { SelectDropdown, RadioButton, PopUp },
 	data() {
 		return {
@@ -791,7 +805,7 @@ export default {
 	},
 	setup() {},
 	methods: {
-		...mapActions(useUserStore, ["onCreatePhase"]),
+		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
 		onChangeSelect(key, value) {
 			let array =
 				key === "functional_alignment"
@@ -801,6 +815,11 @@ export default {
 			const selectedData = array.filter((option) => option === value)[0];
 
 			this.payload[key] = selectedData;
+		},
+		onCancel() {
+			this.role === "patient"
+				? this.$router.push("/all-surveys")
+				: this.$router.push("/doctor-portal");
 		},
 
 		onRadioSelect(key, value) {
@@ -864,7 +883,9 @@ export default {
 					draft: true,
 					phase: "Phase 2",
 				};
-				const res = await this.onCreatePhase(this.payload);
+				const res = this.fields
+					? await this.onEditPhase(this.payload)
+					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
 					this.$router.push("/all-surveys");
 				}
@@ -887,6 +908,11 @@ export default {
 		const inputElements = document.querySelectorAll(`input.form-control`);
 		for (const input of inputElements) {
 			input.disabled = this.isDisabled;
+		}
+
+		if (this.fields) {
+			this.payload = { ...this.fields };
+			this.other_injuries = this.fields.other_injuries;
 		}
 	},
 };

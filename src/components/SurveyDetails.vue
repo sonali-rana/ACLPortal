@@ -11,11 +11,7 @@
 			>
 				Change Doctor
 			</button>
-			<div
-				class="card my-3"
-				style="min-width: 340px"
-				@click="onSelectSurvey(data.id)"
-			>
+			<div class="card my-3" @click="onSelectSurvey(data.id)">
 				<div class="card-body py-3">
 					<div class="card-title mb-3 d-flex align-items-center">
 						<h4 class="generic">
@@ -42,25 +38,25 @@
 						<div class="row">
 							<div class="col-4"><h6>DOB</h6></div>
 							<div class="col-8">
-								<p>{{ data.dob }}</p>
+								<p>{{ data.dob || " N/A" }}</p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-4"><h6>Main Sport</h6></div>
 							<div class="col-8">
-								<p>{{ data.sport }}</p>
+								<p>{{ data.sport || " N/A" }}</p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-4"><h6>Injury Date</h6></div>
 							<div class="col-8">
-								<p>{{ data.date_of_injury }}</p>
+								<p>{{ data.date_of_injury || " N/A" }}</p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-4"><h6>Knee</h6></div>
 							<div class="col-8">
-								<p>{{ data.knee }}</p>
+								<p>{{ data.knee || " N/A" }}</p>
 							</div>
 						</div>
 					</div>
@@ -146,3 +142,11 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+.card {
+	min-width: 340px;
+	background-color: rgba(0, 119, 182, 0.1) !important;
+	box-shadow: 0 2px 10px -1px rgba(100, 116, 139, 0.2);
+}
+</style>

@@ -2,7 +2,6 @@
 	<div class="d-flex flex-wrap" v-if="!currentForm" style="cursor: pointer">
 		<div
 			class="card m-3"
-			style="width: 18rem"
 			v-for="form in allForms"
 			:key="form.title"
 			@click="onClick(form)"
@@ -31,22 +30,22 @@
 		</div>
 	</div>
 	<div v-if="currentForm === 'Demographics'">
-		<DemographicsForm :isDisabled="isDisabled" />
+		<DemographicsForm :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
 	<div v-if="currentForm === 'Pre-Op'">
-		<PreOpForm :isDisabled="isDisabled" />
+		<PreOpForm :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
 	<div v-if="currentForm === 'Phase 1'">
-		<PhaseOne :isDisabled="isDisabled" />
+		<PhaseOne :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
 	<div v-if="currentForm === 'Phase 2'">
-		<PhaseTwo :isDisabled="isDisabled" />
+		<PhaseTwo :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
 	<div v-if="currentForm === 'Phase 3'">
-		<PhaseThree :isDisabled="isDisabled" />
+		<PhaseThree :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
 	<div v-if="currentForm === 'Phase 4'">
-		<PhaseFour :isDisabled="isDisabled" />
+		<PhaseFour :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
 </template>
 
@@ -73,30 +72,65 @@ export default {
 		return {
 			currentForm: null,
 			isDisabled: false,
-			allForms: [
-				{ icon: "D0", title: "Demographics", progress: 100 },
-				{ icon: "P0", title: "Pre-Op", progress: 60 },
-				{ icon: "P1", title: "Phase 1", progress: 0 },
-				{ icon: "P2", title: "Phase 2", progress: 0 },
-				{ icon: "P3", title: "Phase 3", progress: 0 },
-				{ icon: "P4", title: "Phase 4", progress: 0 },
-			],
+			fields: {},
+			allPhasesData: [],
+			role: "",
+			progressPerecent: [],
+			allForms: [],
 		};
 	},
 	methods: {
 		...mapActions(useUserStore, ["getAllPhases"]),
 		onClick(form) {
-			this.currentForm = form.title;
+			const formTitle = form.title;
+
+			const formFields = this.allPhasesData.filter(
+				(obj) => Object?.keys(obj)?.[0] === form.title
+			)[0];
+
+			this.fields = formFields?.[formTitle];
+
+			if (
+				this.$route.query.role === "patient" &&
+				form.title !== "Demographics" &&
+				form.progress !== 100
+			) {
+				return;
+			}
+
 			if (form.progress === 100) this.isDisabled = true;
+			this.currentForm = form.title;
 		},
 	},
 	async mounted() {
 		try {
 			const { id, role } = this.$route.query;
+			this.role = role;
 			const res = await this.getAllPhases(role, id);
+			this.progressPerecent = [...res?.data?.data[1]?.progress];
+			this.allPhasesData = res?.data?.data[0];
+			this.allForms = [
+				{
+					icon: "D0",
+					title: "Demographics",
+					progress: this.progressPerecent?.[0],
+				},
+				{ icon: "P0", title: "Pre-Op", progress: this.progressPerecent?.[1] },
+				{ icon: "P1", title: "Phase 1", progress: this.progressPerecent?.[2] },
+				{ icon: "P2", title: "Phase 2", progress: this.progressPerecent?.[3] },
+				{ icon: "P3", title: "Phase 3", progress: this.progressPerecent?.[4] },
+				{ icon: "P4", title: "Phase 4", progress: this.progressPerecent?.[5] },
+			];
 		} catch (err) {
 			throw new Error(err);
 		}
 	},
 };
 </script>
+
+<style scoped>
+.card {
+	width: 18rem;
+	background-color: rgba(0, 119, 182, 0.1) !important;
+}
+</style>

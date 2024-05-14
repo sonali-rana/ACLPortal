@@ -16,7 +16,10 @@
 	</div>
 	<div class="row">
 		<div class="col-8">
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<div class="mb-3 row">
 					<div class="col-md-2">
 						<label class="form-label">Date</label>
@@ -54,7 +57,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="swelling"
-							:defaultOption="``"
+							:defaultOption="payload.swelling || ``"
 							:Key="`swelling`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -255,22 +258,37 @@
 						Cancel
 					</button>
 					<div>
-						<button class="btn btn-outline-secondary" @click="onSavetoDrafts">
+						<button
+							class="btn btn-outline-secondary"
+							@click="onSavetoDrafts"
+							:disabled="isDisabled"
+						>
 							Save
 						</button>
-						<button class="btn btn-primary ml2" @click="onFinalize">
+						<button
+							class="btn btn-primary ml2"
+							@click="onFinalize"
+							:disabled="isDisabled"
+						>
 							Finalize
 						</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-3" style="font-size: 12px">
-			<h5>Pre-Op Phase: Injury recovery & readiness for surgery</h5>
+		<div class="col-4 info-component">
+			<h5 class="mt-3">
+				Pre-Op Phase: Injury recovery & readiness for surgery
+			</h5>
 			<hr />
 			<p>Related Documents</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=5" target="_blank">
+				<a
+					href="/src/assets/ACL_Guide.pdf#page=5"
+					target="_blank"
+					class="fw-bold"
+					style="background-color: rgb(252, 207, 108, 0.1)"
+				>
 					<i class="bi bi-file-earmark-fill"></i> ACL Guide (pg. 5-6)</a
 				>
 			</p>
@@ -323,7 +341,7 @@
 				can be used to determine readiness to return to training and sport.
 			</p>
 		</div>
-		<div class="col-1"></div>
+		<!-- <div class="col-1"></div> -->
 	</div>
 </template>
 
@@ -334,11 +352,12 @@ import { useUserStore } from "@/store/UserStore";
 import { mapActions } from "pinia";
 
 export default {
-	props: ["isDisabled"],
+	props: ["isDisabled", "fields", "role"],
 	components: { SelectDropdown, PopUp },
 	data() {
 		return {
 			swelling: ["Zero", "Trace", "1+", "2+", "3+"],
+
 			payload: {
 				date: "",
 				passive_extension: "",
@@ -357,13 +376,18 @@ export default {
 	},
 	setup() {},
 	methods: {
-		...mapActions(useUserStore, ["onCreatePhase"]),
+		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
 		onChangeSelect(key, value) {
 			const selectedData = this.swelling.filter(
 				(option) => option === value
 			)[0];
 
 			this.payload[key] = selectedData;
+		},
+		onCancel() {
+			this.role === "patient"
+				? this.$router.push("/all-surveys")
+				: this.$router.push("/doctor-portal");
 		},
 		async onFinalize() {
 			try {
@@ -390,7 +414,9 @@ export default {
 					draft: true,
 					phase: "Pre-Op",
 				};
-				const res = await this.onCreatePhase(this.payload);
+				const res = this.fields
+					? await this.onEditPhase(this.payload)
+					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
 					this.$router.push("/all-surveys");
 				}
@@ -414,6 +440,13 @@ export default {
 		for (const input of inputElements) {
 			input.disabled = this.isDisabled;
 		}
+
+		if (this.fields) {
+			this.payload = { ...this.fields };
+			this.other_injuries = this.fields.other_injuries;
+		}
 	},
 };
 </script>
+
+<style scoped></style>

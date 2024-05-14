@@ -15,7 +15,10 @@
 			:style="{ width: completionPercentage + '%' }"
 		></div>
 	</div>
-	<div class="box form-box p-5 my-3">
+	<div
+		class="box form-box p-5 my-3"
+		style="background-color: rgba(0, 119, 182, 0.1)"
+	>
 		<div class="mb-3 row">
 			<div class="col-md-2">
 				<label class="form-label"
@@ -69,7 +72,7 @@
 			<div class="col-md-4">
 				<SelectDropdown
 					:dropdownOptions="mainSport"
-					:defaultOption="`Please select a sport`"
+					:defaultOption="payload.sport || `Please select a sport`"
 					:Key="`sport`"
 					:isDisabled="isDisabled"
 					@onChange="onChangeSelect"
@@ -83,7 +86,9 @@
 			<div class="col-md-4">
 				<SelectDropdown
 					:dropdownOptions="activityLevel"
-					:defaultOption="`Please select current activity level`"
+					:defaultOption="
+						payload.current_activity || `Please select current activity level`
+					"
 					:Key="`current_activity`"
 					:isDisabled="isDisabled"
 					@onChange="onChangeSelect"
@@ -120,7 +125,9 @@
 			<div class="col-md-4">
 				<SelectDropdown
 					:dropdownOptions="mechanismInjury"
-					:defaultOption="`Please select a mechanism of injury`"
+					:defaultOption="
+						payload.mechanism_injury || `Please select a mechanism of injury`
+					"
 					:Key="`mechanism_injury`"
 					:isDisabled="isDisabled"
 					@onChange="onChangeSelect"
@@ -183,7 +190,7 @@
 			<div class="col-md-4">
 				<SelectDropdown
 					:dropdownOptions="doctorList"
-					:defaultOption="`Select a Doctor`"
+					:defaultOption="payload.doctor || `Select a Doctor`"
 					:Key="`doctor`"
 					:isDisabled="isDisabled"
 					@onChange="onSelectDoctor"
@@ -195,7 +202,9 @@
 			<div class="col-md-4">
 				<SelectDropdown
 					:dropdownOptions="plannedManagement"
-					:defaultOption="`Please select management plan`"
+					:defaultOption="
+						payload.planned_management || `Please select management plan`
+					"
 					:Key="`planned_management`"
 					:isDisabled="isDisabled"
 					@onChange="onChangeSelect"
@@ -223,10 +232,18 @@
 				Cancel
 			</button>
 			<div>
-				<button class="btn btn-outline-secondary" @click="onSavetoDrafts">
+				<button
+					class="btn btn-outline-secondary"
+					@click="onSavetoDrafts"
+					:disabled="isDisabled"
+				>
 					Save
 				</button>
-				<button class="btn btn-primary ml2" @click="onFinalize">
+				<button
+					class="btn btn-primary ml2"
+					@click="onFinalize"
+					:disabled="isDisabled"
+				>
 					Finalize
 				</button>
 			</div>
@@ -241,7 +258,7 @@ import { useUserStore } from "@/store/UserStore";
 import { mapActions } from "pinia";
 
 export default {
-	props: ["isDisabled"],
+	props: ["isDisabled", "fields", "role"],
 	components: { RadioButton, SelectDropdown },
 	data() {
 		return {
@@ -330,7 +347,11 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(useUserStore, ["getDoctorList", "onCreatePhase"]),
+		...mapActions(useUserStore, [
+			"getDoctorList",
+			"onCreatePhase",
+			"onEditPhase",
+		]),
 		onChangeSelect(key, value) {
 			let array =
 				key === "sport"
@@ -373,7 +394,9 @@ export default {
 		},
 
 		onCancel() {
-			this.$router.push("/all-surveys");
+			this.role === "patient"
+				? this.$router.push("/all-surveys")
+				: this.$router.push("/doctor-portal");
 		},
 
 		async onFinalize() {
@@ -407,7 +430,9 @@ export default {
 					other_injuries: this.other_injuries,
 					phase: "Demographics",
 				};
-				const res = await this.onCreatePhase(this.payload);
+				const res = this.fields
+					? await this.onEditPhase(this.payload)
+					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
 					this.$router.push("/all-surveys");
 				}
@@ -418,12 +443,15 @@ export default {
 	},
 	computed: {
 		completionPercentage() {
-			return Math.trunc(
-				(Object.values(this.payload).filter((field) => field.toString().length)
-					?.length /
-					16) *
-					100
-			);
+			return this.fields?.percentage
+				? this.fields.percentage
+				: Math.trunc(
+						(Object.values(this.payload).filter(
+							(field) => field?.toString().length
+						)?.length /
+							16) *
+							100
+					);
 		},
 	},
 	async mounted() {
@@ -431,6 +459,11 @@ export default {
 			const inputElements = document.querySelectorAll(`input.form-control`);
 			for (const input of inputElements) {
 				input.disabled = this.isDisabled;
+			}
+
+			if (this.fields) {
+				this.payload = { ...this.fields };
+				this.other_injuries = this.fields.other_injuries;
 			}
 
 			this.details = JSON.parse(localStorage.getItem("userData"));

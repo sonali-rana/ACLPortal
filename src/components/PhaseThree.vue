@@ -13,7 +13,10 @@
 	</div>
 	<div class="row">
 		<div class="col-8">
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<div class="mb-3 row">
 					<div class="col-md-2">
 						<label class="form-label">Date</label>
@@ -585,7 +588,7 @@
 						<div class="col-md-4">
 							<SelectDropdown
 								:dropdownOptions="side_affected"
-								:defaultOption="``"
+								:defaultOption="payload.cooper_side_affected || ``"
 								:Key="`cooper_side_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
@@ -594,7 +597,7 @@
 						<div class="col-md-4">
 							<SelectDropdown
 								:dropdownOptions="side_non_affected"
-								:defaultOption="``"
+								:defaultOption="payload.cooper_side_non_affected || ``"
 								:Key="`cooper_side_non_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
@@ -608,7 +611,7 @@
 						<div class="col-md-4">
 							<SelectDropdown
 								:dropdownOptions="up_affected"
-								:defaultOption="``"
+								:defaultOption="payload.cooper_up_affected || ``"
 								:Key="`cooper_up_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
@@ -617,7 +620,7 @@
 						<div class="col-md-4">
 							<SelectDropdown
 								:dropdownOptions="up_non_affected"
-								:defaultOption="``"
+								:defaultOption="payload.cooper_up_non_affected || ``"
 								:Key="`cooper_up_non_affected`"
 								:isDisabled="isDisabled"
 								@onChange="onChangeSelect"
@@ -627,7 +630,10 @@
 				</div>
 			</div>
 
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<h5>Supplementary Goals</h5>
 				<div class="my-3 row">
 					<div class="col-md-4">
@@ -737,7 +743,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-3" style="font-size: 12px">
+		<div class="col-3 info-component" style="font-size: 12px">
 			<h5>Phase 3: Running, Agility and Landings</h5>
 			<hr />
 			<p>Related Documents</p>
@@ -808,11 +814,13 @@
 </template>
 
 <script>
+import { mapActions } from "pinia";
 import RadioButton from "./RadioButton.vue";
 import SelectDropdown from "./SelectDropdown.vue";
+import { useUserStore } from "@/store/UserStore";
 
 export default {
-	props: ["isDisabled"],
+	props: ["isDisabled", "fields", "role"],
 	components: { SelectDropdown, RadioButton },
 	data() {
 		return {
@@ -882,6 +890,7 @@ export default {
 	setup() {},
 
 	methods: {
+		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
 		getAverage(val1, val2) {
 			return val1.toString().length && val2.toString.length
 				? (val1 + val2) / 2
@@ -900,6 +909,11 @@ export default {
 			const selectedData = array.filter((option) => option === value)[0];
 
 			this.payload[key] = selectedData;
+		},
+		onCancel() {
+			this.role === "patient"
+				? this.$router.push("/all-surveys")
+				: this.$router.push("/doctor-portal");
 		},
 		onRadioSelect(key, value) {
 			let array = key === "baseline_eq" ? this.equalOrGreater : this.hurdle;
@@ -934,11 +948,33 @@ export default {
 				throw new Error(error);
 			}
 		},
+		async onSavetoDrafts() {
+			try {
+				this.payload = {
+					...this.payload,
+					percentage: this.completionPercentage,
+					draft: true,
+					phase: "Phase 3",
+				};
+				const res = this.fields
+					? await this.onEditPhase(this.payload)
+					: await this.onCreatePhase(this.payload);
+				if (res?.status === 200) {
+					this.$router.push("/all-surveys");
+				}
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
 	},
 	mounted() {
 		const inputElements = document.querySelectorAll(`input.form-control`);
 		for (const input of inputElements) {
 			input.disabled = this.isDisabled;
+		}
+		if (this.fields) {
+			this.payload = { ...this.fields };
+			this.other_injuries = this.fields.other_injuries;
 		}
 	},
 };

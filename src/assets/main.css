@@ -43,11 +43,11 @@ h6 {
 }
 
 .box:hover {
-	box-shadow: 0 2px 10px -1px rgba(100, 116, 139, 0.4);
+	box-shadow: 0 2px 10px -1px rgba(100, 116, 139, 0.6);
 }
 
 .card:hover {
-	box-shadow: 0 2px 10px -1px rgba(100, 116, 139, 0.5) !important;
+	box-shadow: 0 2px 10px -1px rgba(100, 116, 139, 0.6) !important;
 }
 
 p,
@@ -131,6 +131,10 @@ div a:hover {
 
 .btn-primary {
 	background-color: rgba(0, 119, 182, 0.9) !important;
+}
+
+.btn-secondary {
+	background-color: hsla(160, 100%, 37%, 1) !important;
 }
 
 .mg2 {
@@ -261,4 +265,14 @@ header > a:hover {
 	padding-top: 10px;
 	font-weight: 800;
 	font-size: 24px;
+}
+
+.info-component {
+	font-size: 12px;
+	background-color: rgb(252, 207, 108, 0.6);
+}
+
+.info-component > p {
+	color: black !important;
+	font-weight: 600;
 }

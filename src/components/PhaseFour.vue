@@ -13,7 +13,10 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8">
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<div class="mb-3 row">
 					<div class="col-md-2">
 						<label class="form-label">Date</label>
@@ -131,7 +134,10 @@
 			</div>
 
 			<h5>Part D: Functional Testing</h5>
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<h6>Star Excursion Balance Test</h6>
 				<div class="my-3 row">
 					<div class="col-md-4"></div>
@@ -509,7 +515,10 @@
 			</div>
 
 			<h5>Part E: General Fitness Testing</h5>
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<h6>Test 1</h6>
 				<div class="mb-3 row">
 					<div class="col-md-2">
@@ -581,7 +590,10 @@
 			</div>
 
 			<h5>Part F: Fatigued State Testing</h5>
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<h6>Single Hop Test</h6>
 				<div class="my-3 row">
 					<div class="col-md-4"></div>
@@ -774,7 +786,10 @@
 			</div>
 
 			<h5>Melbourne Return to Sport Score</h5>
-			<div class="box p-5" style="width: 100% !important">
+			<div
+				class="box p-5"
+				style="width: 100% !important; background-color: rgba(0, 119, 182, 0.1)"
+			>
 				<div class="mb-3 row">
 					<div class="col-md-2">
 						<label class="form-label">Return to Sport Score</label>
@@ -805,7 +820,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-3" style="font-size: 12px">
+		<div class="col-3 info-component" style="font-size: 12px">
 			<h5>Phase 4: Return to Sport</h5>
 			<hr />
 			<p>Related Documents</p>
@@ -895,7 +910,7 @@ import RadioButton from "./RadioButton.vue";
 import SelectDropdown from "./SelectDropdown.vue";
 
 export default {
-	props: ["isDisabled"],
+	props: ["isDisabled", "role"],
 	components: { SelectDropdown, RadioButton },
 	data() {
 		return {
@@ -909,6 +924,11 @@ export default {
 	setup() {},
 	methods: {
 		onChangeSelect() {},
+		onCancel() {
+			this.role === "patient"
+				? this.$router.push("/all-surveys")
+				: this.$router.push("/doctor-portal");
+		},
 	},
 	mounted() {
 		const inputElements = document.querySelectorAll(`input.form-control`);

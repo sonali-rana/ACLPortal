@@ -93,6 +93,15 @@ export const useUserStore = defineStore("authStore", {
 				throw new Error(error);
 			}
 		},
+		async onEditPhase(payload) {
+			try {
+				const res = await API.put("/edit_phases/", payload);
+
+				return res;
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
 		async onDeleteRequest(id) {
 			try {
 				const res = await API.delete(`/delete_survey/?id=${id}`);
