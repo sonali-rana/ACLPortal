@@ -497,7 +497,38 @@
 					</div>
 				</div>
 
-				<h5>Unipedal Stance Test</h5>
+				<div>
+					<h5>
+						Unipedal Stance Test<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup8.showPopup = true"
+						></i>
+					</h5>
+					<PopUp ref="infoPopup8"
+						><h5>Balance</h5>
+						<br />
+						<p>Unipedal stance test (Springer et al, 2007)</p>
+						<br />
+						<p>
+							Subjects stand on one leg with other leg raised and arms crossed
+							over the chest. The assessor uses a stopwatch to time how long
+							stance is maintained on one leg with a) eyes open, and b) eyes
+							closed. Time ends when;
+						</p>
+						<ul>
+							<li>Arms are used (uncrossed)</li>
+							<li>Use of the raised foot (touches down or other leg)</li>
+							<li>Movement of the stance foot</li>
+							<li>45 secs has elapsed (maximum time)</li>
+							<li>Eyes opened on eyes closed trials</li>
+						</ul>
+						<br />
+						<p class="fw-bold">Goal: A. (eyes open) 43 seconds</p>
+						<p class="fw-bold">
+							B. (eyes closed) 9 seconds (Normative data for 18-39 year olds)
+						</p></PopUp
+					>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -585,7 +616,33 @@
 						/>
 					</div>
 				</div>
-				<h6>Single Leg Press 1RM</h6>
+				<div>
+					<h6>
+						Single Leg Press 1RM<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup9.showPopup = true"
+						></i>
+					</h6>
+					<PopUp ref="infoPopup9"
+						><h5>Single Leg Press</h5>
+						<br />
+						<p>1RM Single Leg Press (Campanholi Neto, José, et al, 2015)</p>
+						<br />
+						<p>
+							This test can be performed in most commercial gymnasiums that have
+							a 45 degree incline leg press. Please ensure an appropriate warm
+							up.
+						</p>
+						<p>
+							Seat position is at 90 degrees to the slide, and the foot should
+							be placed so that the hip is flexed to 90 degrees. A valid
+							repetition is where the weight is lowered to a depth of 90 degrees
+							knee flexion and then extended back to full knee extension.
+						</p>
+						<br />
+						<p class="fw-bold">Goal: 1.5 x Body Weight (sled + weight)</p>
+					</PopUp>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -633,7 +690,31 @@
 						/>
 					</div>
 				</div>
-				<h6>Squat 1RM</h6>
+				<div>
+					<h6>
+						Squat 1RM<i
+							class="bi bi-info-square mx-2 fs-6"
+							@click="$refs.infoPopup10.showPopup = true"
+						></i>
+					</h6>
+					<PopUp ref="infoPopup10"
+						><h5>Squat 1RM Squat</h5>
+						<br />
+						<p>
+							This test can be performed in most commercial gymnasiums that have
+							a squat rack. Please ensure an appropriate warm up and
+							supervision/spotter whilst performing this test.
+						</p>
+						<p>
+							There are many ways to perform the squat exercise ie. Front Squat,
+							Back Squat, Trap Bar Squat; whichever way you choose to do it, we
+							advise that the person attempts to squat down to 90 degrees knee
+							flexion, and rises up into full knee and hip extension
+						</p>
+						<br />
+						<p class="fw-bold">Goal: 1.5 x Body Weight (sled + weight)</p>
+					</PopUp>
+				</div>
 				<div class="mt-3 row">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -681,7 +762,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-3 info-component" style="font-size: 12px">
+		<div class="col-4 info-component" style="font-size: 12px">
 			<h5>Phase 2: Strength and neuromuscular control</h5>
 			<hr />
 			<p>Related Documents</p>
@@ -723,7 +804,6 @@
 				type of training should be reserved for Phase 3.
 			</p>
 		</div>
-		<div class="col-1"></div>
 	</div>
 </template>
 
@@ -887,7 +967,7 @@ export default {
 					? await this.onEditPhase(this.payload)
 					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
 				throw new Error(error);

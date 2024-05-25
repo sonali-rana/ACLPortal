@@ -28,7 +28,6 @@ export default {
 	},
 	computed: {},
 	mounted() {
-		console.log("called", window.location.pathname);
 		this.path = window.location.pathname;
 	},
 };

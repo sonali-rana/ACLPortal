@@ -2,15 +2,15 @@
 	<div class="d-flex flex-wrap" v-if="!currentForm" style="cursor: pointer">
 		<div class="m-3" v-for="data in surveyData" :key="data.id">
 			<h5 style="display: inline-block">{{ formatDate(data?.survey_date) }}</h5>
-			<button
-				@click="onChangeDoctor(data)"
-				style="display: inline-block; margin-left: 120px; color: #fff"
-				class="btn btn-info"
-				data-bs-toggle="modal"
-				data-bs-target="#Modal"
-			>
-				Change Doctor
-			</button>
+			<span v-if="role === 'patient'">
+				<button
+					@click="onChangeDoctor(data)"
+					style="display: inline-block; margin-left: 120px; color: #fff"
+					class="btn btn-info"
+				>
+					Change Doctor
+				</button>
+			</span>
 			<div class="card my-3" @click="onSelectSurvey(data.id)">
 				<div class="card-body py-3">
 					<div class="card-title mb-3 d-flex align-items-center">
@@ -35,6 +35,18 @@
 					</div>
 
 					<div class="card-text my-1">
+						<div class="row" v-if="role === 'patient'">
+							<div class="col-4"><h6>Doctor</h6></div>
+							<div class="col-8">
+								<p>{{ data.doctor_name || " N/A" }}</p>
+							</div>
+						</div>
+						<div class="row" v-if="role === 'doctor'">
+							<div class="col-4"><h6>Patient</h6></div>
+							<div class="col-8">
+								<p>{{ data.patient_name || " N/A" }}</p>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-4"><h6>DOB</h6></div>
 							<div class="col-8">
@@ -72,6 +84,8 @@
 		:doctorList="doctorList"
 		:id="id"
 		:selectedDoctor="doctor"
+		:showModal="showModal"
+		@onCloseModal="onCloseModal"
 	/>
 </template>
 
@@ -84,7 +98,13 @@ export default {
 	components: { ChangeDoctor },
 	props: ["surveyData", "role"],
 	data() {
-		return { allDoctors: [], doctorList: [], id: "", doctor: "" };
+		return {
+			showModal: false,
+			allDoctors: [],
+			doctorList: [],
+			id: "",
+			doctor: "",
+		};
 	},
 	methods: {
 		...mapActions(useUserStore, ["getDoctorList"]),
@@ -116,6 +136,9 @@ export default {
 				return formattedDate;
 			}
 		},
+		onCloseModal() {
+			this.showModal = false;
+		},
 		async onChangeDoctor(data) {
 			try {
 				const res = await this.getDoctorList();
@@ -125,9 +148,9 @@ export default {
 						return docObj?.first_name + " " + docObj?.last_name;
 					});
 					this.doctorList = [...mapDoctorName];
-					console.log("data", data);
 					this.id = data.id;
 					this.doctor = data.doctor;
+					this.showModal = true;
 				}
 			} catch (error) {
 				throw new Error(error);

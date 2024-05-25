@@ -1,28 +1,51 @@
+<style scoped>
+.bg-popUp {
+	background-color: rgb(0, 0, 0, 0.5) !important;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 2;
+}
+.popUp {
+	min-height: 30%;
+	width: 35%;
+	background-color: white;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 3;
+}
+p {
+	color: black;
+}
+</style>
+
 <template>
-	<div class="modal fade" id="Modal" ref="my_modal">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-body d-flex flex-column justify-content-evenly p-3">
-					<h5 class="modal-title my-3">Change Doctor</h5>
-					<SelectDropdown
-						:dropdownOptions="doctorList"
-						:defaultOption="`Please select a doctor`"
-						:Key="`doctor`"
-						:isDisabled="isDisabled"
-						@onChange="onChangeSelect"
-					/>
-					<div class="d-flex justify-content-between mb-3 mt-5">
-						<button
-							type="button"
-							class="btn btn-outline-secondary"
-							data-bs-dismiss="modal"
-						>
-							Close
-						</button>
-						<button type="button" class="btn btn-primary" @click="onSave">
-							Save changes
-						</button>
-					</div>
+	<div v-if="showModal" class="bg-popUp">
+		<div class="popUp pt-4 px-3">
+			<div class="d-flex flex-column justify-content-evenly">
+				<h5 class="py-2">Change Doctor</h5>
+				<SelectDropdown
+					:dropdownOptions="doctorList"
+					:defaultOption="`Please select a doctor`"
+					:Key="`doctor`"
+					:isDisabled="isDisabled"
+					@onChange="onSelectDoctor"
+				/>
+				<div class="d-flex justify-content-between mt-5">
+					<button
+						type="button"
+						class="btn btn-outline-secondary"
+						@click="this.$emit('onCloseModal')"
+					>
+						Close
+					</button>
+					<button type="button" class="btn btn-primary" @click="onSave">
+						Save changes
+					</button>
 				</div>
 			</div>
 		</div>
@@ -34,7 +57,8 @@ import { mapActions } from "pinia";
 import SelectDropdown from "./SelectDropdown.vue";
 import { useUserStore } from "@/store/UserStore";
 export default {
-	props: ["allDoctors", "doctorList", "id", "selectedDoctor"],
+	props: ["allDoctors", "doctorList", "id", "selectedDoctor", "showModal"],
+	emits: ["onCloseModal"],
 	components: { SelectDropdown },
 	data() {
 		return { doctor: "" };
@@ -49,18 +73,17 @@ export default {
 			this.doctor = selectedData;
 		},
 		async onSave() {
-			if (!this.doctor) {
+			if (!this.doctor.length) {
 				// Handle case where no doctor is selected
 				return;
 			}
 			try {
-				console.log("called", this.doctor);
 				const res = await this.onChangeDoctor({
 					id: this.id,
 					doctor: this.doctor,
 				});
 				if (res.status === 200) {
-					this.$refs.my_modal.hidden = true;
+					this.$emit("onCloseModal");
 				}
 			} catch (err) {
 				throw new Error(err);

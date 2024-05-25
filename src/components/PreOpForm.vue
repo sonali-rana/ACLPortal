@@ -418,7 +418,7 @@ export default {
 					? await this.onEditPhase(this.payload)
 					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
 				throw new Error(error);

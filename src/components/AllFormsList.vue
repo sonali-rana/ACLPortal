@@ -84,7 +84,7 @@ export default {
 		onClick(form) {
 			const formTitle = form.title;
 
-			const formFields = this.allPhasesData.filter(
+			const formFields = this.allPhasesData?.filter(
 				(obj) => Object?.keys(obj)?.[0] === form.title
 			)[0];
 
@@ -95,6 +95,7 @@ export default {
 				form.title !== "Demographics" &&
 				form.progress !== 100
 			) {
+				console.log("abc");
 				return;
 			}
 

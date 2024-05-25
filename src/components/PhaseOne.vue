@@ -186,7 +186,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-3 info-component" style="font-size: 12px">
+		<div class="col-4 info-component" style="font-size: 12px">
 			<h5>Phase 1: Recovery from Surgery</h5>
 			<hr />
 			<p>Related Documents</p>
@@ -223,7 +223,6 @@
 				consultation with your doctor.
 			</p>
 		</div>
-		<div class="col-1"></div>
 	</div>
 </template>
 
@@ -293,7 +292,7 @@ export default {
 					? await this.onEditPhase(this.payload)
 					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
 				throw new Error(error);
