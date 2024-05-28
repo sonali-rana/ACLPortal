@@ -11,7 +11,11 @@ export const useAuthStore = defineStore("authStore", {
 				localStorage.setItem("userData", JSON.stringify(res.data));
 				return res;
 			} catch (error) {
-				throw new Error(error);
+				throw new Error(
+					error?.response?.data?.message ??
+						error?.response?.message ??
+						"Something went wrong while registering. Please try again."
+				);
 			}
 		},
 		async login(payload) {
@@ -23,7 +27,11 @@ export const useAuthStore = defineStore("authStore", {
 
 				return res;
 			} catch (error) {
-				throw new Error(error);
+				throw new Error(
+					error?.response?.data?.message ??
+						error?.response?.message ??
+						"Please make sure you have entered correct email and password."
+				);
 			}
 		},
 		async forgotPassword(payload) {

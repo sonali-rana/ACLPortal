@@ -33,15 +33,18 @@
 			<p class="fs-7"></p>
 		</div>
 	</div>
+	<ShowError :message="message" />
 </template>
 
 <script>
 import { useAuthStore } from "@/store/AuthStore";
 import { mapActions } from "pinia";
+import ShowError from "./ShowError.vue";
 
 export default {
+	components: { ShowError },
 	data() {
-		return { payload: { email: "", password: "" } };
+		return { payload: { email: "", password: "" }, message: "" };
 	},
 	methods: {
 		...mapActions(useAuthStore, ["login"]), // Maps actions to methods
@@ -53,7 +56,10 @@ export default {
 					this.$router.push(`/${role}-portal`);
 				}
 			} catch (error) {
+				this.message = error?.message ?? error;
 				throw new Error(error);
+			} finally {
+				setTimeout(() => (this.message = ""), 3000);
 			}
 		},
 	},

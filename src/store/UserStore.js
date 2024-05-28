@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import API from "@/API/api";
 
 export const useUserStore = defineStore("authStore", {
-	state: () => ({ doctorList: [], allDoctors: [], status: null, msg: "" }),
+	state: () => ({ doctorList: [], allDoctors: [], status: false, msg: "" }),
 
 	actions: {
 		async getDoctorList() {

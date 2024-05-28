@@ -91,11 +91,18 @@ export default {
 			this.fields = formFields?.[formTitle];
 
 			if (
+				this.$route.query.role === "doctor" &&
+				form.title === "Demographics" &&
+				form.progress !== 100
+			) {
+				return;
+			}
+
+			if (
 				this.$route.query.role === "patient" &&
 				form.title !== "Demographics" &&
 				form.progress !== 100
 			) {
-				console.log("abc");
 				return;
 			}
 

@@ -82,13 +82,16 @@
 			</div>
 		</div>
 	</div>
+	<ShowError :message="message" />
 </template>
 
 <script>
 import { useAuthStore } from "@/store/AuthStore";
 import { mapActions } from "pinia";
+import ShowError from "./ShowError.vue";
 
 export default {
+	components: { ShowError },
 	data() {
 		return {
 			confirmPassword: "",
@@ -102,6 +105,7 @@ export default {
 				license: "",
 				role: "doctor",
 			},
+			message: "",
 		};
 	},
 	methods: {
@@ -127,7 +131,10 @@ export default {
 					this.$router.push("/doctor-portal");
 				}
 			} catch (error) {
+				this.message = error?.message ?? error;
 				throw new Error(error);
+			} finally {
+				setTimeout(() => (this.message = ""), 3000);
 			}
 		},
 	},

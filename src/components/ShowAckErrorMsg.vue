@@ -2,7 +2,7 @@
 	<div
 		class="alert alert-primary"
 		role="alert"
-		v-if="status"
+		v-if="status && msg?.length"
 		style="position: absolute; top: 5px; width: 50vw !important"
 	>
 		{{ msg }}
@@ -10,7 +10,7 @@
 	<div
 		class="alert alert-danger"
 		role="alert"
-		v-if="!status && status !== null"
+		v-if="!status && msg?.length"
 		style="position: absolute; top: 5px; width: 50vw !important"
 	>
 		{{ msg }}
