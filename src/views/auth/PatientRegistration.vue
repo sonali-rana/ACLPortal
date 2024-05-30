@@ -43,19 +43,34 @@
 				<div class="mb-3 row">
 					<div class="col">
 						<label h5 class="form-label">Password</label>
-						<input
-							type="password"
-							class="form-control"
-							v-model="payload.password"
-						/>
+						<span class="d-flex"
+							><input
+								:type="!isVisible ? 'password' : 'text'"
+								class="form-control"
+								v-model="payload.password"
+							/>
+							<span
+								@click="togglePasswordVisibility"
+								style="margin-left: -30px"
+							>
+								<i v-if="!isVisible" class="bi bi-eye-slash fs-4"></i>
+								<i v-else class="bi bi-eye fs-4"></i>
+							</span>
+						</span>
 					</div>
 					<div class="col">
 						<label h5 class="form-label">Confirm Password</label>
-						<input
-							type="password"
-							class="form-control"
-							v-model="confirmPassword"
-						/>
+						<span class="d-flex"
+							><input
+								:type="!isConfirmVisible ? 'password' : 'text'"
+								class="form-control"
+								v-model="confirmPassword"
+							/>
+							<span @click="toggleConfirmPassword" style="margin-left: -30px">
+								<i v-if="!isConfirmVisible" class="bi bi-eye-slash fs-4"></i>
+								<i v-else class="bi bi-eye fs-4"></i>
+							</span>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -81,6 +96,8 @@ export default {
 		return {
 			confirmPassword: "",
 			message: "",
+			isVisible: false,
+			isConfirmVisible: false,
 			payload: {
 				firstname: "",
 				lastname: "",
@@ -116,8 +133,14 @@ export default {
 				this.message = error?.message ?? error;
 				throw new Error(error);
 			} finally {
-				setTimeout(() => (this.message = ""), 3000);
+				setTimeout(() => (this.message = ""), 9000);
 			}
+		},
+		togglePasswordVisibility() {
+			this.isVisible = !this.isVisible;
+		},
+		toggleConfirmPassword() {
+			this.isConfirmVisible = !this.isConfirmVisible;
 		},
 	},
 };

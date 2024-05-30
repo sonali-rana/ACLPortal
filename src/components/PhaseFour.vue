@@ -14,7 +14,6 @@
 			:style="{ width: completionPercentage + '%' }"
 		></div>
 	</div>
-	{{ payload }}
 	<div class="row">
 		<div class="col-md-8">
 			<div

@@ -13,11 +13,20 @@
 				<div class="mb-3 row">
 					<div class="col">
 						<label class="form-label">Password</label>
-						<input
-							type="password"
-							class="form-control"
-							v-model="payload.password"
-						/>
+						<span class="d-flex"
+							><input
+								:type="!isVisible ? 'password' : 'text'"
+								class="form-control"
+								v-model="payload.password"
+							/>
+							<span
+								@click="togglePasswordVisibility"
+								style="margin-left: -30px"
+							>
+								<i v-if="!isVisible" class="bi bi-eye-slash fs-4"></i>
+								<i v-else class="bi bi-eye fs-4"></i>
+							</span>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -44,7 +53,11 @@ import ShowError from "./ShowError.vue";
 export default {
 	components: { ShowError },
 	data() {
-		return { payload: { email: "", password: "" }, message: "" };
+		return {
+			payload: { email: "", password: "" },
+			message: "",
+			isVisible: false,
+		};
 	},
 	methods: {
 		...mapActions(useAuthStore, ["login"]), // Maps actions to methods
@@ -59,8 +72,11 @@ export default {
 				this.message = error?.message ?? error;
 				throw new Error(error);
 			} finally {
-				setTimeout(() => (this.message = ""), 3000);
+				setTimeout(() => (this.message = ""), 9000);
 			}
+		},
+		togglePasswordVisibility() {
+			this.isVisible = !this.isVisible;
 		},
 	},
 };

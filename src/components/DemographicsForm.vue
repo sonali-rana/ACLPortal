@@ -1,6 +1,5 @@
 <template>
 	<h4>Demographics</h4>
-	{{ isDisabled }}
 	<p>Please fill all the essential details to proceed.</p>
 	<div
 		class="progress mt-3"
