@@ -146,13 +146,13 @@ export default {
 				}
 			}
 
-			// if (
-			// 	this.$route.query.role === "patient" &&
-			// 	form.title !== "Demographics" &&
-			// 	form.progress !== 100
-			// ) {
-			// 	return;
-			// }
+			if (
+				this.$route.query.role === "patient" &&
+				form.title !== "Demographics" &&
+				form.progress !== 100
+			) {
+				return;
+			}
 
 			if (form.progress === 100) this.isDisabled = true;
 			this.currentForm = form.title;
