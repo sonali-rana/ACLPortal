@@ -40,5 +40,14 @@ export default {
 			this.forgotPassword(this.payload);
 		},
 	},
+	mounted() {
+		//fix pinia not loading on first load
+		const hash = "#hard-refresh"; // Unique hash value
+
+		if (window.location.hash !== hash) {
+			window.location.hash = hash;
+			window.location.reload(true); // Force a hard reload
+		}
+	},
 };
 </script>
