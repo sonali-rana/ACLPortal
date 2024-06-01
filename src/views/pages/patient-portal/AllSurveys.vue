@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex justify-content-between align-items-center">
 		<h4>All Surveys</h4>
-		<RouterLink to="patient-portal"
+		<RouterLink to="/demographics"
 			><button class="btn btn-primary">
 				Start New ACL rehabilitation
 			</button></RouterLink

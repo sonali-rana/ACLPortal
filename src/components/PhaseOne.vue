@@ -186,16 +186,20 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-4 info-component" style="font-size: 12px">
-			<h5>Phase 1: Recovery from Surgery</h5>
+		<div class="col-4 info-component">
+			<h5 class="mt-3">Phase 1: Recovery from Surgery</h5>
 			<hr />
 			<p>Related Documents</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=7" target="_blank">
-					<i class="bi bi-file-earmark-fill"></i> ACL Guide (pg. 7-8)</a
+				<a
+					href="/src/assets/ACL_Guide_Phase_1.pdf"
+					target="_blank"
+					class="fw-bold"
+				>
+					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 1</a
 				>
 			</p>
-			<p>Most important goals</p>
+			<!-- <p>Most important goals</p>
 			<ul>
 				<li>
 					<b>Get the knee straight (full extension)</b>
@@ -221,7 +225,7 @@
 				exercises to improve knee extension (straightening) and flexion
 				(bending). Analgesics and other medications should only be used in
 				consultation with your doctor.
-			</p>
+			</p> -->
 		</div>
 	</div>
 </template>
@@ -259,14 +263,13 @@ export default {
 			this.payload[key] = selectedData;
 		},
 		onCancel() {
-			this.role === "patient"
-				? this.$router.push("/all-surveys")
-				: this.$router.push("/doctor-portal");
+			this.$router.push(`/${this.role}-portal`);
 		},
 		async onFinalize() {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: 100,
 					draft: false,
 					phase: "Phase 1",
@@ -284,6 +287,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: this.completionPercentage,
 					draft: true,
 					phase: "Phase 1",

@@ -5,11 +5,14 @@
 		class="progress my-3"
 		role="progressbar"
 		aria-label="Default striped example"
-		aria-valuenow="25"
+		aria-valuenow="completionPercentage"
 		aria-valuemin="0"
 		aria-valuemax="100"
 	>
-		<div class="progress-bar progress-bar-striped" style="width: 25%"></div>
+		<div
+			class="progress-bar progress-bar-striped"
+			:style="{ width: completionPercentage + '%' }"
+		></div>
 	</div>
 	<div class="row">
 		<div class="col-8">
@@ -1004,26 +1007,30 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-4 info-component" style="font-size: 12px">
-			<h5>Phase 3: Running, Agility and Landings</h5>
+		<div class="col-4 info-component">
+			<h5 class="mt-3">Phase 3: Running, Agility and Landings</h5>
 			<hr />
 			<p>Related Documents</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=13" target="_blank">
-					<i class="bi bi-file-earmark-fill"></i> ACL Guide (pg. 13-16)</a
+				<a
+					href="/src/assets/ACL_Guide_Phase_3.pdf"
+					target="_blank"
+					class="fw-bold"
+				>
+					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 3</a
 				>
 			</p>
 			<p>
-				<a href="/src/assets/ACL-RSI.pdf" target="_blank">
+				<a href="/src/assets/ACL-RSI.pdf" target="_blank" class="fw-bold">
 					<i class="bi bi-file-earmark-fill"></i> ACL-RSI</a
 				>
 			</p>
 			<p>
-				<a href="/src/assets/Tegner.pdf" target="_blank">
+				<a href="/src/assets/Tegner.pdf" target="_blank" class="fw-bold">
 					<i class="bi bi-file-earmark-fill"></i> Tegner</a
 				>
 			</p>
-			<p>Most important goals</p>
+			<!-- <p>Most important goals</p>
 			<ul>
 				<li>
 					<b
@@ -1068,7 +1075,7 @@
 				phase as many of the exercises and activities require eccentric muscle
 				activity. Clinicians should watch for signs of overload of the
 				patellofemoral complex in particular.
-			</p>
+			</p> -->
 		</div>
 	</div>
 </template>
@@ -1172,9 +1179,7 @@ export default {
 			this.payload[key] = selectedData;
 		},
 		onCancel() {
-			this.role === "patient"
-				? this.$router.push("/all-surveys")
-				: this.$router.push("/doctor-portal");
+			this.$router.push(`/${this.role}-portal`);
 		},
 		onRadioSelect(key, value) {
 			let array = key === "baseline_eq" ? this.equalOrGreater : this.hurdle;
@@ -1197,6 +1202,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: 100,
 					draft: false,
 					phase: "Phase 3",
@@ -1213,6 +1219,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: this.completionPercentage,
 					draft: true,
 					phase: "Phase 3",
@@ -1226,6 +1233,16 @@ export default {
 			} catch (error) {
 				throw new Error(error);
 			}
+		},
+	},
+	computed: {
+		completionPercentage() {
+			return Math.trunc(
+				(Object.values(this.payload).filter((field) => field.toString().length)
+					?.length /
+					46) *
+					100
+			);
 		},
 	},
 	mounted() {

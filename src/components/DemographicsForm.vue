@@ -261,6 +261,7 @@ export default {
 	components: { RadioButton, SelectDropdown },
 	data() {
 		return {
+			Role: "",
 			details: {},
 			allDoctors: [],
 			doctorList: [],
@@ -393,9 +394,7 @@ export default {
 		},
 
 		onCancel() {
-			this.role === "patient"
-				? this.$router.push("/all-surveys")
-				: this.$router.push("/doctor-portal");
+			this.$router.push(`/${this.role ?? this.Role}-portal`);
 		},
 
 		async onFinalize() {
@@ -411,7 +410,7 @@ export default {
 				};
 				const res = await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/patient-portal");
 				}
 			} catch (error) {
 				throw new Error(error);
@@ -433,7 +432,7 @@ export default {
 					? await this.onEditPhase(this.payload)
 					: await this.onCreatePhase(this.payload);
 				if (res?.status === 200) {
-					this.$router.push("/all-surveys");
+					this.$router.push("/patient-portal");
 				}
 			} catch (error) {
 				throw new Error(error);
@@ -455,6 +454,9 @@ export default {
 	},
 	async mounted() {
 		try {
+			const { role } = JSON.parse(localStorage.getItem("userData"));
+			this.Role = role;
+
 			const inputElements = document.querySelectorAll(`input.form-control`);
 			for (const input of inputElements) {
 				input.disabled = this.isDisabled;

@@ -284,16 +284,15 @@
 			<p>Related Documents</p>
 			<p>
 				<a
-					href="/src/assets/ACL_Guide.pdf#page=5"
+					href="/src/assets/ACL_Guide_Phase_0.pdf"
 					target="_blank"
 					class="fw-bold"
-					style="background-color: rgb(252, 207, 108, 0.1)"
 				>
-					<i class="bi bi-file-earmark-fill"></i> ACL Guide (pg. 5-6)</a
+					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase Pre-Op</a
 				>
 			</p>
-			<p>Most important goals</p>
-			<ul>
+			<!-- <p>Most important goals</p> -->
+			<!-- <ul>
 				<li>
 					<b>Eliminate swelling</b>
 				</li>
@@ -306,9 +305,9 @@
 						other side</b
 					>
 				</li>
-			</ul>
-			<p>More Information</p>
-			<p>
+			</ul> -->
+			<!-- <p>More Information</p> -->
+			<!-- <p>
 				Whilst people may want to have the operation as soon as possible, it’s
 				important to allow the knee to settle from the injury and regain a good
 				level of strength and function before surgery.
@@ -339,9 +338,8 @@
 			<p>
 				This pre-surgery phase also allows clinicians to gather information that
 				can be used to determine readiness to return to training and sport.
-			</p>
+			</p> -->
 		</div>
-		<!-- <div class="col-1"></div> -->
 	</div>
 </template>
 
@@ -385,14 +383,13 @@ export default {
 			this.payload[key] = selectedData;
 		},
 		onCancel() {
-			this.role === "patient"
-				? this.$router.push("/all-surveys")
-				: this.$router.push("/doctor-portal");
+			this.$router.push(`/${this.role}-portal`);
 		},
 		async onFinalize() {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: 100,
 					draft: false,
 					phase: "Pre-Op",
@@ -410,6 +407,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: this.completionPercentage,
 					draft: true,
 					phase: "Pre-Op",

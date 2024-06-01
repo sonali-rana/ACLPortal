@@ -762,16 +762,20 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-4 info-component" style="font-size: 12px">
-			<h5>Phase 2: Strength and neuromuscular control</h5>
+		<div class="col-4 info-component">
+			<h5 class="mt-3">Phase 2: Strength and neuromuscular control</h5>
 			<hr />
 			<p>Related Documents</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=9" target="_blank">
-					<i class="bi bi-file-earmark-fill"></i> ACL Guide (pg. 9-12)</a
+				<a
+					href="/src/assets/ACL_Guide_Phase_2.pdf"
+					target="_blank"
+					class="fw-bold"
+				>
+					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 2</a
 				>
 			</p>
-			<p>Most important goals</p>
+			<!-- <p>Most important goals</p>
 			<ul>
 				<li>
 					<b>Regain most of your single leg balance</b>
@@ -802,7 +806,7 @@
 				Some clinicians may start some introductory impact type activities such
 				as walk-jogging or mini jumps during this phase, but the bulk of this
 				type of training should be reserved for Phase 3.
-			</p>
+			</p> -->
 		</div>
 	</div>
 </template>
@@ -897,9 +901,7 @@ export default {
 			this.payload[key] = selectedData;
 		},
 		onCancel() {
-			this.role === "patient"
-				? this.$router.push("/all-surveys")
-				: this.$router.push("/doctor-portal");
+			this.$router.push(`/${this.role}-portal`);
 		},
 
 		onRadioSelect(key, value) {
@@ -943,6 +945,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: 100,
 					draft: false,
 					phase: "Phase 2",
@@ -959,6 +962,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: this.completionPercentage,
 					draft: true,
 					phase: "Phase 2",

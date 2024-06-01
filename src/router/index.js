@@ -31,13 +31,14 @@ const routes = [
 		children: [
 			{
 				path: "",
+				component: () => import("@/views/pages/patient-portal/AllSurveys.vue"),
+			},
+			{
+				path: "/demographics",
 				component: () =>
 					import("@/views/pages/patient-portal/DemographicsForm.vue"),
 			},
-			{
-				path: "/all-surveys",
-				component: () => import("@/views/pages/patient-portal/AllSurveys.vue"),
-			},
+
 			{
 				path: "/patient-details",
 				component: () =>

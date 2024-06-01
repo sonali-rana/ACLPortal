@@ -1160,21 +1160,29 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-4 info-component" style="font-size: 12px">
-			<h5>Phase 4: Return to Sport</h5>
+		<div class="col-4 info-component">
+			<h5 class="mt-3">Phase 4: Return to Sport</h5>
 			<hr />
 			<p>Related Documents</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=17" target="_blank">
-					<i class="bi bi-file-earmark-fill"></i> ACL Guide (pg. 17-31)</a
+				<a
+					href="/src/assets/ACL_Guide_Phase_4.pdf"
+					target="_blank"
+					class="fw-bold"
+				>
+					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 4</a
 				>
 			</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=21" target="_blank">
-					<i class="bi bi-file-earmark-fill"></i> ACL-RSI (pg. 21-22)</a
+				<a
+					href="/src/assets/ACL_Guide_Phase_5.pdf"
+					target="_blank"
+					class="fw-bold"
+				>
+					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 5</a
 				>
 			</p>
-			<p>
+			<!-- <p>
 				<a href="/src/assets/ACL_Guide.pdf#page=23" target="_blank">
 					<i class="bi bi-file-earmark-fill"></i> IKDC (pg. 23-25)</a
 				>
@@ -1183,8 +1191,8 @@
 				<a href="/src/assets/ACL_Guide.pdf#page=26" target="_blank">
 					<i class="bi bi-file-earmark-fill"></i> TSK-11 (pg. 26-29)</a
 				>
-			</p>
-			<p>More Information</p>
+			</p> -->
+			<!-- <p>More Information</p>
 			<p>
 				<b
 					>So when are people ready to return to sport after an ACL
@@ -1239,7 +1247,7 @@
 				done during this phase (and continue on into Phase 5), but the emphasis
 				of Phase 4 ACL rehab is on progressive training, from restricted to
 				unrestricted, and an eventual return to competition when ready
-			</p>
+			</p> -->
 		</div>
 	</div>
 	<InputModal
@@ -1456,9 +1464,7 @@ export default {
 				: "";
 		},
 		onCancel() {
-			this.role === "patient"
-				? this.$router.push("/all-surveys")
-				: this.$router.push("/doctor-portal");
+			this.$router.push(`/${this.role}-portal`);
 		},
 		onShowlModal(key) {
 			key === "acl"
@@ -1492,6 +1498,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: 100,
 					draft: false,
 					phase: "Phase 4",
@@ -1508,6 +1515,7 @@ export default {
 			try {
 				this.payload = {
 					...this.payload,
+					demographics_id: this.$route?.query?.id,
 					percentage: this.completionPercentage,
 					draft: true,
 					phase: "Phase 4",

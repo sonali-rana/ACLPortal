@@ -29,6 +29,51 @@
 			</div>
 		</div>
 	</div>
+	<div
+		class="mb-3"
+		v-if="
+			currentForm &&
+			allPhasesData?.[0]?.Demographics?.doctor_name &&
+			role === 'patient'
+		"
+	>
+		<h5 class="generic form-icon">D</h5>
+		<h6>{{ allPhasesData?.[0]?.Demographics?.doctor_name }}</h6>
+	</div>
+	<div
+		class="mb-3"
+		v-if="
+			currentForm &&
+			allPhasesData?.[0]?.Demographics?.patient_name &&
+			role === 'doctor'
+		"
+	>
+		<h5 class="generic form-icon">P</h5>
+		<h6>{{ allPhasesData?.[0]?.Demographics?.patient_name }}</h6>
+	</div>
+	<div
+		class="d-flex justify-content-between mb-3"
+		style="cursor: pointer"
+		v-if="currentForm"
+	>
+		<div v-for="obj in allForms" :key="obj.title" @click="onClick(obj)">
+			<h6>{{ obj.title }}</h6>
+			<div
+				class="progress mt-3"
+				role="progressbar"
+				aria-label="Default striped example"
+				aria-valuenow="obj.progress"
+				aria-valuemin="0"
+				aria-valuemax="100"
+				style="width: 150px"
+			>
+				<div
+					class="progress-bar progress-bar-striped"
+					:style="{ width: obj.progress + '%' }"
+				></div>
+			</div>
+		</div>
+	</div>
 	<div v-if="currentForm === 'Demographics'">
 		<DemographicsForm :isDisabled="isDisabled" :fields="fields" :role="role" />
 	</div>
@@ -90,21 +135,24 @@ export default {
 
 			this.fields = formFields?.[formTitle];
 
-			if (
-				this.$route.query.role === "doctor" &&
-				form.title === "Demographics" &&
-				form.progress !== 100
-			) {
-				return;
+			if (this.$route.query.role === "doctor") {
+				const idx = this.allForms.findIndex((obj) => obj.title === form.title);
+
+				if (idx > 0 && this.allForms?.[idx - 1]?.progress < 100) {
+					return;
+				}
+				if (form.title === "Demographics" && form.progress !== 100) {
+					return;
+				}
 			}
 
-			if (
-				this.$route.query.role === "patient" &&
-				form.title !== "Demographics" &&
-				form.progress !== 100
-			) {
-				return;
-			}
+			// if (
+			// 	this.$route.query.role === "patient" &&
+			// 	form.title !== "Demographics" &&
+			// 	form.progress !== 100
+			// ) {
+			// 	return;
+			// }
 
 			if (form.progress === 100) this.isDisabled = true;
 			this.currentForm = form.title;
@@ -115,8 +163,10 @@ export default {
 			const { id, role } = this.$route.query;
 			this.role = role;
 			const res = await this.getAllPhases(role, id);
+
 			this.progressPerecent = [...res?.data?.data[1]?.progress];
 			this.allPhasesData = res?.data?.data[0];
+
 			this.allForms = [
 				{
 					icon: "D0",
