@@ -231,9 +231,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.bridge_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'bridge_symmetry',
+									payload.bridge_affected,
+									payload.bridge_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -247,6 +253,7 @@
 							:options="bridge_hurdle"
 							:Key="`bridge_hurdle`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.bridge_hurdle"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -312,9 +319,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.calf_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'calf_symmetry',
+									payload.calf_affected,
+									payload.calf_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -328,6 +341,7 @@
 							:options="calf_hurdle"
 							:Key="`calf_hurdle`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.calf_hurdle"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -392,9 +406,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.endurance_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'endurance_symmetry',
+									payload.endurance_affected,
+									payload.endurance_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -408,6 +428,7 @@
 							:options="endurance_hurdle"
 							:Key="`endurance_hurdle`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.endurance_hurdle"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -476,9 +497,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.leg_rise_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'leg_rise_symmetry',
+									payload.leg_rise_affected,
+									payload.leg_rise_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -492,6 +519,7 @@
 							:options="leg_rise_hurdle"
 							:Key="`leg_rise_hurdle`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.leg_rise_hurdle"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -585,6 +613,7 @@
 							:options="unipedal_affected_hurdel"
 							:Key="`unipedal_affected_hurdel`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.unipedal_affected_hurdel"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -593,6 +622,7 @@
 							:options="unipedal_affected_non_hurdel"
 							:Key="`unipedal_affected_non_hurdel`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.unipedal_affected_non_hurdel"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -890,6 +920,20 @@ export default {
 	setup() {},
 	methods: {
 		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
+
+		calculateLimbSymmetry(key, val1, val2) {
+			let lmbSymmtry = "";
+
+			if (val1?.toString().length && val2?.toString().length) {
+				if (val1 === 0 && val2 === 0) lmbSymmtry = 0;
+				else lmbSymmtry = (val1 / val2) * 100;
+			}
+
+			this.payload[key] = lmbSymmtry;
+
+			return lmbSymmtry;
+		},
+
 		onChangeSelect(key, value) {
 			let array =
 				key === "functional_alignment"
@@ -900,6 +944,7 @@ export default {
 
 			this.payload[key] = selectedData;
 		},
+
 		onCancel() {
 			this.$router.push(`/${this.role}-portal`);
 		},
@@ -981,9 +1026,9 @@ export default {
 	computed: {
 		completionPercentage() {
 			return Math.trunc(
-				(Object.values(this.payload).filter((field) => field.toString().length)
+				(Object.values(this.payload).filter((field) => field?.toString().length)
 					?.length /
-					33) *
+					34) *
 					100
 			);
 		},
@@ -995,8 +1040,7 @@ export default {
 		}
 
 		if (this.fields) {
-			this.payload = { ...this.fields };
-			this.other_injuries = this.fields.other_injuries;
+			this.payload = { ...this.payload, ...this.fields };
 		}
 	},
 };

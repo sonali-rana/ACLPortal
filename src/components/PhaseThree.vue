@@ -141,9 +141,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.hop_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'hop_symmetry',
+									getSum(
+										payload.hop_trial_1_affected,
+										payload.hop_trial_2_affected
+									),
+									getSum(
+										payload.hop_trial_1_non_affected,
+										payload.hop_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -180,6 +192,7 @@
 							:options="equalOrGreater"
 							:Key="`baseline_eq`"
 							:isDisabled="isDisabled"
+							:selectedOption="payload.baseline_eq"
 							@onChange="onRadioSelect"
 						/>
 					</div>
@@ -294,9 +307,21 @@
 						</div>
 						<div class="col-md-4">
 							<input
-								type="text"
+								type="number"
 								class="form-control"
-								v-model="payload.triple_symmetry"
+								:defaultValue="
+									calculateLimbSymmetry(
+										'triple_symmetry',
+										getSum(
+											payload.triple_trial_1_affected,
+											payload.triple_trial_2_affected
+										),
+										getSum(
+											payload.triple_trial_1_non_affected,
+											payload.triple_trial_2_non_affected
+										)
+									)
+								"
 							/>
 						</div>
 					</div>
@@ -416,9 +441,21 @@
 						</div>
 						<div class="col-md-4">
 							<input
-								type="text"
+								type="number"
 								class="form-control"
-								v-model="payload.crossover_symmetry"
+								:defaultValue="
+									calculateLimbSymmetry(
+										'crossover_symmetry',
+										getSum(
+											payload.crossover_trial_1_affected,
+											payload.crossover_trial_2_affected
+										),
+										getSum(
+											payload.crossover_trial_1_non_affected,
+											payload.crossover_trial_2_non_affected
+										)
+									)
+								"
 							/>
 						</div>
 					</div>
@@ -484,9 +521,15 @@
 						</div>
 						<div class="col-md-4">
 							<input
-								type="text"
+								type="number"
 								class="form-control"
-								v-model="payload.side_symmetry"
+								:defaultValue="
+									calculateLimbSymmetry(
+										'side_symmetry',
+										payload.side_trial_1_affected,
+										payload.side_trial_1_non_affected
+									)
+								"
 							/>
 						</div>
 					</div>
@@ -555,9 +598,15 @@
 						</div>
 						<div class="col-md-4">
 							<input
-								type="text"
+								type="number"
 								class="form-control"
-								v-model="payload.repetition_symmetry"
+								:defaultValue="
+									calculateLimbSymmetry(
+										'repetition_symmetry',
+										+payload.repetitions_affetced,
+										+payload.repetitions_non_affected
+									)
+								"
 							/>
 						</div>
 					</div>
@@ -571,6 +620,7 @@
 								:options="hurdle"
 								:Key="`repetition_hurdle`"
 								:isDisabled="isDisabled"
+								:selectedOption="payload.repetition_hurdle"
 								@onChange="onRadioSelect"
 							/>
 						</div>
@@ -637,9 +687,15 @@
 						</div>
 						<div class="col-md-4">
 							<input
-								type="text"
+								type="number"
 								class="form-control"
-								v-model="payload.star_forward_symmetry"
+								:defaultValue="
+									calculateLimbSymmetry(
+										'star_forward_symmetry',
+										+payload.star_forward_affected,
+										+payload.star_forward_non_affected
+									)
+								"
 							/>
 						</div>
 					</div>
@@ -728,9 +784,17 @@
 						</div>
 						<div class="col-md-4">
 							<input
-								type="text"
+								type="number"
 								class="form-control"
-								v-model="payload.postereo_symmetry"
+								:defaultValue="
+									calculateLimbSymmetry(
+										'postereo_symmetry',
+										+payload.postereomedical_affected +
+											+payload.postereolateral_affected,
+										+payload.postereomedical_non_affected +
+											+payload.postereolateral_non_affected
+									)
+								"
 							/>
 						</div>
 					</div>
@@ -1159,11 +1223,32 @@ export default {
 
 	methods: {
 		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
+
 		getAverage(val1, val2) {
 			return val1.toString().length && val2.toString.length
 				? (val1 + val2) / 2
 				: "";
 		},
+
+		getSum(val1, val2) {
+			return val1?.toString().length && val2?.toString().length
+				? val1 + val2
+				: "";
+		},
+
+		calculateLimbSymmetry(key, val1, val2) {
+			let lmbSymmtry = "";
+
+			if (val1?.toString().length && val2?.toString().length) {
+				if (val1 === 0 && val2 === 0) lmbSymmtry = 0;
+				else lmbSymmtry = (val1 / val2) * 100;
+			}
+
+			this.payload[key] = lmbSymmtry;
+
+			return lmbSymmtry;
+		},
+
 		onChangeSelect(key, value) {
 			let array =
 				key === "cooper_side_affected"
@@ -1178,9 +1263,11 @@ export default {
 
 			this.payload[key] = selectedData;
 		},
+
 		onCancel() {
 			this.$router.push(`/${this.role}-portal`);
 		},
+
 		onRadioSelect(key, value) {
 			let array = key === "baseline_eq" ? this.equalOrGreater : this.hurdle;
 
@@ -1198,6 +1285,7 @@ export default {
 
 			this.payload[key] = selectedData;
 		},
+
 		async onFinalize() {
 			try {
 				this.payload = {
@@ -1215,6 +1303,7 @@ export default {
 				throw new Error(error);
 			}
 		},
+
 		async onSavetoDrafts() {
 			try {
 				this.payload = {
@@ -1238,9 +1327,9 @@ export default {
 	computed: {
 		completionPercentage() {
 			return Math.trunc(
-				(Object.values(this.payload).filter((field) => field.toString().length)
+				(Object.values(this.payload).filter((field) => field?.toString().length)
 					?.length /
-					46) *
+					47) *
 					100
 			);
 		},
@@ -1251,8 +1340,7 @@ export default {
 			input.disabled = this.isDisabled;
 		}
 		if (this.fields) {
-			this.payload = { ...this.fields };
-			this.other_injuries = this.fields.other_injuries;
+			this.payload = { ...this.payload, ...this.fields };
 		}
 	},
 };

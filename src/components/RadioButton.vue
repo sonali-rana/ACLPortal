@@ -8,7 +8,9 @@
 			class="form-check-input mx-2"
 			type="radio"
 			:name="option.name"
-			:checked="option.isChecked"
+			:checked="
+				option.isChecked || (isDisabled && selectedOption === option.name)
+			"
 			@change="emitChange"
 			:disabled="isDisabled"
 		/>
@@ -17,7 +19,7 @@
 </template>
 <script>
 export default {
-	props: ["options", "Key", "isDisabled"],
+	props: ["options", "Key", "isDisabled", "selectedOption"],
 	methods: {
 		emitChange(event) {
 			this.$emit("onChange", this.Key, event.target.name);

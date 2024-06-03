@@ -126,9 +126,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.dynamometer_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'dynamometer_symmetry',
+									payload.dynamometer_affected,
+									payload.dynamometer_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -247,9 +253,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.hop_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'hop_symmetry',
+									getSum(
+										payload.hop_trial_1_affected,
+										payload.hop_trial_2_affected
+									),
+									getSum(
+										payload.hop_trial_1_non_affected,
+										payload.hop_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -375,6 +393,26 @@ export default {
 	setup() {},
 	methods: {
 		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
+
+		getSum(val1, val2) {
+			return val1?.toString().length && val2?.toString().length
+				? val1 + val2
+				: "";
+		},
+
+		calculateLimbSymmetry(key, val1, val2) {
+			let lmbSymmtry = "";
+
+			if (val1?.toString().length && val2?.toString().length) {
+				if (val1 === 0 && val2 === 0) lmbSymmtry = 0;
+				else lmbSymmtry = (val1 / val2) * 100;
+			}
+
+			this.payload[key] = lmbSymmtry;
+
+			return lmbSymmtry;
+		},
+
 		onChangeSelect(key, value) {
 			const selectedData = this.swelling.filter(
 				(option) => option === value
@@ -382,9 +420,11 @@ export default {
 
 			this.payload[key] = selectedData;
 		},
+
 		onCancel() {
 			this.$router.push(`/${this.role}-portal`);
 		},
+
 		async onFinalize() {
 			try {
 				this.payload = {
@@ -426,9 +466,10 @@ export default {
 	computed: {
 		completionPercentage() {
 			return Math.trunc(
-				(Object.values(this.payload).filter((field) => field.toString().length)
-					?.length /
-					10) *
+				(Object.values(this.payload)?.filter(
+					(field) => field?.toString()?.length
+				)?.length /
+					15) *
 					100
 			);
 		},
@@ -440,8 +481,7 @@ export default {
 		}
 
 		if (this.fields) {
-			this.payload = { ...this.fields };
-			this.other_injuries = this.fields.other_injuries;
+			this.payload = { ...this.payload, ...this.fields };
 		}
 	},
 };

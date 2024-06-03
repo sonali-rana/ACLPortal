@@ -40,6 +40,7 @@
 					:options="options"
 					:Key="`gender`"
 					:isDisabled="isDisabled"
+					:selectedOption="payload.gender"
 					@onChange="onRadioSelect"
 				/>
 			</div>
@@ -114,6 +115,7 @@
 						:options="knee"
 						:Key="`knee`"
 						:isDisabled="isDisabled"
+						:selectedOption="payload.knee"
 						@onChange="onRadioSelect"
 					/>
 				</div>
@@ -463,7 +465,7 @@ export default {
 			}
 
 			if (this.fields) {
-				this.payload = { ...this.fields };
+				this.payload = { ...this.payload, ...this.fields };
 				this.other_injuries = this.fields.other_injuries;
 			}
 

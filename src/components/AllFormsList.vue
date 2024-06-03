@@ -129,33 +129,33 @@ export default {
 		onClick(form) {
 			const formTitle = form.title;
 
-			const formFields = this.allPhasesData?.filter(
-				(obj) => Object?.keys(obj)?.[0] === form.title
-			)[0];
+			const all_forms = this.allPhasesData?.[0];
 
-			this.fields = formFields?.[formTitle];
+			this.fields = Object?.keys(all_forms)?.includes(formTitle)
+				? all_forms?.[form.title]
+				: {};
 
 			if (this.$route.query.role === "doctor") {
-				const idx = this.allForms.findIndex((obj) => obj.title === form.title);
+				const idx = this.allForms.findIndex((obj) => obj.title === formTitle);
 
 				if (idx > 0 && this.allForms?.[idx - 1]?.progress < 100) {
 					return;
 				}
-				if (form.title === "Demographics" && form.progress !== 100) {
+				if (formTitle === "Demographics" && form.progress !== 100) {
 					return;
 				}
 			}
 
 			if (
 				this.$route.query.role === "patient" &&
-				form.title !== "Demographics" &&
+				formTitle !== "Demographics" &&
 				form.progress !== 100
 			) {
 				return;
 			}
 
 			if (form.progress === 100) this.isDisabled = true;
-			this.currentForm = form.title;
+			this.currentForm = formTitle;
 		},
 	},
 	async mounted() {

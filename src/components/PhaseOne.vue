@@ -306,7 +306,7 @@ export default {
 	computed: {
 		completionPercentage() {
 			return Math.trunc(
-				(Object.values(this.payload).filter((field) => field.toString().length)
+				(Object.values(this.payload).filter((field) => field?.toString().length)
 					?.length /
 					7) *
 					100
@@ -319,8 +319,7 @@ export default {
 			input.disabled = this.isDisabled;
 		}
 		if (this.fields) {
-			this.payload = { ...this.fields };
-			this.other_injuries = this.fields.other_injuries;
+			this.payload = { ...this.payload, ...this.fields };
 		}
 	},
 };

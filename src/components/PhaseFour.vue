@@ -185,9 +185,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.forward_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'forward_symmetry',
+									payload.forward_affected,
+									payload.forward_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -247,7 +253,10 @@
 							type="number"
 							class="form-control"
 							:defaultValue="
-								getSum(postereomedical_affected, postereolateral_affected)
+								getSum(
+									payload.postereomedical_affected,
+									payload.postereolateral_affected
+								)
 							"
 						/>
 					</div>
@@ -257,8 +266,8 @@
 							class="form-control"
 							:defaultValue="
 								getSum(
-									postereomedical_non_affected,
-									postereolateral_non_affected
+									payload.postereomedical_non_affected,
+									payload.postereolateral_non_affected
 								)
 							"
 						/>
@@ -271,9 +280,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.postereo_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'postereo_symmetry',
+									getSum(
+										payload.postereomedical_affected,
+										payload.postereolateral_affected
+									),
+									getSum(
+										payload.postereomedical_non_affected,
+										payload.postereolateral_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -392,7 +413,10 @@
 							type="number"
 							class="form-control"
 							:defaultValue="
-								getAverage(hop_trial_1_affected, hop_trial_2_affected)
+								getAverage(
+									payload.hop_trial_1_affected,
+									payload.hop_trial_2_affected
+								)
 							"
 						/>
 					</div>
@@ -401,7 +425,10 @@
 							type="number"
 							class="form-control"
 							:defaultValue="
-								getAverage(hop_trial_1_non_affected, hop_trial_2_non_affected)
+								getAverage(
+									payload.hop_trial_1_non_affected,
+									payload.hop_trial_2_non_affected
+								)
 							"
 						/>
 					</div>
@@ -413,9 +440,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.hop_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'hop_symmetry',
+									getSum(
+										payload.hop_trial_1_affected,
+										payload.hop_trial_2_affected
+									),
+									getSum(
+										payload.hop_trial_1_non_affected,
+										payload.hop_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -477,7 +516,10 @@
 							type="number"
 							class="form-control"
 							:defaultValue="
-								getAverage(triple_trial_1_affected, triple_trial_2_affected)
+								getAverage(
+									payload.triple_trial_1_affected,
+									payload.triple_trial_2_affected
+								)
 							"
 						/>
 					</div>
@@ -487,8 +529,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									triple_trial_1_non_affected,
-									triple_trial_2_non_affected
+									payload.triple_trial_1_non_affected,
+									payload.triple_trial_2_non_affected
 								)
 							"
 						/>
@@ -501,9 +543,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.triple_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'triple_symmetry',
+									getSum(
+										payload.triple_trial_1_affected,
+										payload.triple_trial_2_affected
+									),
+									getSum(
+										payload.triple_trial_1_non_affected,
+										payload.triple_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -566,8 +620,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									crossover_trial_1_affected,
-									crossover_trial_2_affected
+									payload.crossover_trial_1_affected,
+									payload.crossover_trial_2_affected
 								)
 							"
 						/>
@@ -578,8 +632,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									crossover_trial_1_non_affected,
-									crossover_trial_2_non_affected
+									payload.crossover_trial_1_non_affected,
+									payload.crossover_trial_2_non_affected
 								)
 							"
 						/>
@@ -592,9 +646,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.crossover_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'crossover_symmetry',
+									getSum(
+										payload.crossover_trial_1_affected,
+										payload.crossover_trial_2_affected
+									),
+									getSum(
+										payload.crossover_trial_1_non_affected,
+										payload.crossover_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -635,9 +701,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.side_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'side_symmetry',
+									payload.side_trial_1_affected,
+									payload.side_trial_1_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -678,9 +750,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.repetition_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'repetition_symmetry',
+									payload.repetitions_affected,
+									payload.repetitions_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -850,8 +928,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									fatigued_hop_trial_1_affected,
-									fatigued_hop_trial_2_affected
+									payload.fatigued_hop_trial_1_affected,
+									payload.fatigued_hop_trial_2_affected
 								)
 							"
 						/>
@@ -862,8 +940,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									fatigued_hop_trial_1_non_affected,
-									fatigued_hop_trial_2_non_affected
+									payload.fatigued_hop_trial_1_non_affected,
+									payload.fatigued_hop_trial_2_non_affected
 								)
 							"
 						/>
@@ -876,9 +954,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.fatigued_hop_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'fatigued_hop_symmetry',
+									getSum(
+										payload.fatigued_hop_trial_1_affected,
+										payload.fatigued_hop_trial_2_affected
+									),
+									getSum(
+										payload.fatigued_hop_trial_1_non_affected,
+										payload.fatigued_hop_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -941,8 +1031,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									fatigued_triple_trial_1_affected,
-									fatigued_triple_trial_2_affected
+									payload.fatigued_triple_trial_1_affected,
+									payload.fatigued_triple_trial_2_affected
 								)
 							"
 						/>
@@ -953,8 +1043,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									fatigued_triple_trial_1_non_affected,
-									fatigued_triple_trial_2_non_affected
+									payload.fatigued_triple_trial_1_non_affected,
+									payload.fatigued_triple_trial_2_non_affected
 								)
 							"
 						/>
@@ -967,9 +1057,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.fatigued_triple_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'fatigued_triple_symmetry',
+									getSum(
+										payload.fatigued_triple_trial_1_affected,
+										payload.fatigued_triple_trial_2_affected
+									),
+									getSum(
+										payload.fatigued_triple_trial_1_non_affected,
+										payload.fatigued_triple_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -1032,8 +1134,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									fatigued_crossover_trial_1_affected,
-									fatigued_crossover_trial_2_affected
+									payload.fatigued_crossover_trial_1_affected,
+									payload.fatigued_crossover_trial_2_affected
 								)
 							"
 						/>
@@ -1044,8 +1146,8 @@
 							class="form-control"
 							:defaultValue="
 								getAverage(
-									fatigued_crossover_trial_1_non_affected,
-									fatigued_crossover_trial_2_non_affected
+									payload.fatigued_crossover_trial_1_non_affected,
+									payload.fatigued_crossover_trial_2_non_affected
 								)
 							"
 						/>
@@ -1058,9 +1160,21 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.fatigued_crossover_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'fatigued_crossover_symmetry',
+									getSum(
+										payload.fatigued_crossover_trial_1_affected,
+										payload.fatigued_crossover_trial_2_affected
+									),
+									getSum(
+										payload.fatigued_crossover_trial_1_non_affected,
+										payload.fatigued_crossover_trial_2_non_affected
+									)
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -1101,9 +1215,15 @@
 					</div>
 					<div class="col-md-4">
 						<input
-							type="text"
+							type="number"
 							class="form-control"
-							v-model="payload.fatigued_side_symmetry"
+							:defaultValue="
+								calculateLimbSymmetry(
+									'fatigued_side_symmetry',
+									payload.fatigued_side_trial_1_affected,
+									payload.fatigued_side_trial_1_non_affected
+								)
+							"
 						/>
 					</div>
 				</div>
@@ -1423,6 +1543,20 @@ export default {
 	setup() {},
 	methods: {
 		...mapActions(useUserStore, ["onCreatePhase", "onEditPhase"]),
+
+		calculateLimbSymmetry(key, val1, val2) {
+			let lmbSymmtry = "";
+
+			if (val1?.toString().length && val2?.toString().length) {
+				if (val1 === 0 && val2 === 0) lmbSymmtry = 0;
+				else lmbSymmtry = (val1 / val2) * 100;
+			}
+
+			this.payload[key] = lmbSymmtry;
+
+			return lmbSymmtry;
+		},
+
 		onChangeSelect(key, value) {
 			let array =
 				key === "dominant_leg"
@@ -1453,19 +1587,23 @@ export default {
 
 			this.payload[key] = selectedData;
 		},
+
 		getAverage(val1, val2) {
 			return val1?.toString().length && val2?.toString().length
 				? (val1 + val2) / 2
 				: "";
 		},
+
 		getSum(val1, val2) {
 			return val1?.toString().length && val2?.toString().length
 				? val1 + val2
 				: "";
 		},
+
 		onCancel() {
 			this.$router.push(`/${this.role}-portal`);
 		},
+
 		onShowlModal(key) {
 			key === "acl"
 				? (this.modalData = this.aclrsi)
@@ -1474,10 +1612,12 @@ export default {
 					: (this.modalData = this.tsk);
 			this.showModal = true;
 		},
+
 		closeModal() {
 			this.modalData = [];
 			this.showModal = false;
 		},
+
 		onSetModalData(key, arr) {
 			if (key === "aclrsi") {
 				this.payload.aclrsi_q1 = arr[0];
@@ -1494,6 +1634,7 @@ export default {
 			}
 			this.showModal = false;
 		},
+
 		async onFinalize() {
 			try {
 				this.payload = {
@@ -1511,6 +1652,7 @@ export default {
 				throw new Error(error);
 			}
 		},
+
 		async onSavetoDrafts() {
 			try {
 				this.payload = {
@@ -1531,20 +1673,26 @@ export default {
 			}
 		},
 	},
+
 	computed: {
 		completionPercentage() {
 			return Math.trunc(
-				(Object.values(this.payload).filter((field) => field.toString().length)
+				(Object.values(this.payload).filter((field) => field?.toString().length)
 					?.length /
-					76) *
+					77) *
 					100
 			);
 		},
 	},
+
 	mounted() {
 		const inputElements = document.querySelectorAll(`input.form-control`);
 		for (const input of inputElements) {
 			input.disabled = this.isDisabled;
+		}
+
+		if (this.fields) {
+			this.payload = { ...this.payload, ...this.fields };
 		}
 	},
 };
