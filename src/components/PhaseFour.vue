@@ -36,7 +36,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="dominant_leg"
-							:defaultOption="``"
+							:defaultOption="payload.dominant_leg || ``"
 							:Key="`dominant_leg`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -52,7 +52,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="swelling"
-							:defaultOption="``"
+							:defaultOption="payload.swelling || ``"
 							:Key="`swelling`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -64,7 +64,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="stability"
-							:defaultOption="``"
+							:defaultOption="payload.stability || ``"
 							:Key="`stability`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -78,7 +78,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="flexion"
-							:defaultOption="``"
+							:defaultOption="payload.flexion || ``"
 							:Key="`flexion`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -90,7 +90,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="extension"
-							:defaultOption="``"
+							:defaultOption="payload.extension || ``"
 							:Key="`extension`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -135,7 +135,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="result"
-							:defaultOption="``"
+							:defaultOption="payload.result || ``"
 							:Key="`result`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -316,7 +316,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="cooper_side_affected"
-							:defaultOption="``"
+							:defaultOption="payload.cooper_side_affected || ``"
 							:Key="`cooper_side_affected`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -325,7 +325,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="cooper_side_non_affected"
-							:defaultOption="``"
+							:defaultOption="payload.cooper_side_non_affected || ``"
 							:Key="`cooper_side_non_affected`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -339,7 +339,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="cooper_up_affected"
-							:defaultOption="``"
+							:defaultOption="payload.cooper_up_affected || ``"
 							:Key="`cooper_up_affected`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -348,7 +348,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="cooper_up_non_affected"
-							:defaultOption="``"
+							:defaultOption="payload.cooper_up_non_affected || ``"
 							:Key="`cooper_up_non_affected`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -809,7 +809,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="test_1_pass"
-							:defaultOption="``"
+							:defaultOption="payload.test_1_pass || ``"
 							:Key="`test_1_pass`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -856,7 +856,7 @@
 					<div class="col-md-4">
 						<SelectDropdown
 							:dropdownOptions="test_2_pass"
-							:defaultOption="``"
+							:defaultOption="payload.test_2_pass || ``"
 							:Key="`test_2_pass`"
 							:isDisabled="isDisabled"
 							@onChange="onChangeSelect"
@@ -1385,7 +1385,7 @@ import SelectDropdown from "./SelectDropdown.vue";
 import { useUserStore } from "@/store/UserStore";
 
 export default {
-	props: ["isDisabled", "role"],
+	props: ["isDisabled", "role", "fields"],
 	components: { SelectDropdown, InputModal },
 	data() {
 		return {
