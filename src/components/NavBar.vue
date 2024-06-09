@@ -8,7 +8,7 @@
 			<a aria-current="page" href="#home">Home</a>
 			<a href="#find-doc">Find a Doctor</a>
 			<a href="#about">About Us</a>
-			<a href="#">Contact Us</a>
+			<a href="#contact">Contact Us</a>
 		</div>
 		<form class="d-flex">
 			<span

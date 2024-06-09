@@ -171,6 +171,21 @@
 					style="width: 20vw; height: 300px; opacity: 0.8"
 				/>
 			</div>
+			<div class="d-flex" style="background-color: rgb(252, 207, 108)">
+				<img
+					src="/src/assets/contact.png"
+					class="card-img"
+					alt="acl_image"
+					style="width: 30vw; height: 300px; opacity: 0.8"
+				/>
+				<div class="p-5" id="contact">
+					<h4>Contact US</h4><br>
+					<span style="color: white"
+						>Email  : kvsai0998@gmail.com <br />
+						Phone No: 0424560458<br />
+					</span>
+				</div>
+			</div>
 			<CopyRight />
 		</div>
 	</div>
