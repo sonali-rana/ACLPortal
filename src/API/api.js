@@ -7,7 +7,7 @@ const selectToken = () => {
 
 const axiosInstance = () => {
 	const defaultOptions = {
-		baseURL: "http://54.253.179.9:8000",
+		baseURL: "https://acl.zapto.org/",
 		method: "get",
 		headers: {
 			"Content-Type": "application/json",
@@ -17,14 +17,14 @@ const axiosInstance = () => {
 	const instance = axios.create(defaultOptions);
 
 	instance.interceptors.request.use((config) => {
-		const token = selectToken();
-		if (
-			!config.url.includes("login") ||
-			config.url.includes("register") ||
-			config.url.includes("forgot_password")
-		) {
-			config.headers.Authorization = token ? `Bearer ${token}` : "";
-		}
+		// const token = selectToken();
+		// if (
+		// 	!config.url.includes("login") ||
+		// 	config.url.includes("register") ||
+		// 	config.url.includes("forgot_password")
+		// ) {
+		// 	config.headers.Authorization = token ? `Bearer ${token}` : "";
+		// }
 		return config;
 	});
 
