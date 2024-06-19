@@ -199,7 +199,7 @@
 					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 1</a
 				>
 			</p>
-			<!-- <p>Most important goals</p>
+			<p>Most important goals</p>
 			<ul>
 				<li>
 					<b>Get the knee straight (full extension)</b>
@@ -225,7 +225,7 @@
 				exercises to improve knee extension (straightening) and flexion
 				(bending). Analgesics and other medications should only be used in
 				consultation with your doctor.
-			</p> -->
+			</p>
 		</div>
 	</div>
 </template>

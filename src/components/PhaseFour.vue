@@ -1302,17 +1302,25 @@
 					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 5</a
 				>
 			</p>
-			<!-- <p>
-				<a href="/src/assets/ACL_Guide.pdf#page=23" target="_blank">
+			<p>
+				<a
+					href="/src/assets/ACL_Guide.pdf#page=23"
+					class="fw-bold"
+					target="_blank"
+				>
 					<i class="bi bi-file-earmark-fill"></i> IKDC (pg. 23-25)</a
 				>
 			</p>
 			<p>
-				<a href="/src/assets/ACL_Guide.pdf#page=26" target="_blank">
+				<a
+					href="/src/assets/ACL_Guide.pdf#page=26"
+					class="fw-bold"
+					target="_blank"
+				>
 					<i class="bi bi-file-earmark-fill"></i> TSK-11 (pg. 26-29)</a
 				>
-			</p> -->
-			<!-- <p>More Information</p>
+			</p>
+			<p>More Information</p>
 			<p>
 				<b
 					>So when are people ready to return to sport after an ACL
@@ -1367,7 +1375,7 @@
 				done during this phase (and continue on into Phase 5), but the emphasis
 				of Phase 4 ACL rehab is on progressive training, from restricted to
 				unrestricted, and an eventual return to competition when ready
-			</p> -->
+			</p>
 		</div>
 	</div>
 	<InputModal

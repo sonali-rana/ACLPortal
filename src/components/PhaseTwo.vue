@@ -805,7 +805,7 @@
 					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase 2</a
 				>
 			</p>
-			<!-- <p>Most important goals</p>
+			<p>Most important goals</p>
 			<ul>
 				<li>
 					<b>Regain most of your single leg balance</b>
@@ -836,7 +836,7 @@
 				Some clinicians may start some introductory impact type activities such
 				as walk-jogging or mini jumps during this phase, but the bulk of this
 				type of training should be reserved for Phase 3.
-			</p> -->
+			</p>
 		</div>
 	</div>
 </template>

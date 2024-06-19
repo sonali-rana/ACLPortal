@@ -1094,7 +1094,7 @@
 					<i class="bi bi-file-earmark-fill"></i> Tegner</a
 				>
 			</p>
-			<!-- <p>Most important goals</p>
+			<p>Most important goals</p>
 			<ul>
 				<li>
 					<b
@@ -1139,7 +1139,7 @@
 				phase as many of the exercises and activities require eccentric muscle
 				activity. Clinicians should watch for signs of overload of the
 				patellofemoral complex in particular.
-			</p> -->
+			</p>
 		</div>
 	</div>
 </template>

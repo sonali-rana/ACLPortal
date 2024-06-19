@@ -309,8 +309,8 @@
 					<i class="bi bi-file-earmark-fill"></i> ACL Guide Phase Pre-Op</a
 				>
 			</p>
-			<!-- <p>Most important goals</p> -->
-			<!-- <ul>
+			<p>Most important goals</p>
+			<ul>
 				<li>
 					<b>Eliminate swelling</b>
 				</li>
@@ -323,9 +323,9 @@
 						other side</b
 					>
 				</li>
-			</ul> -->
-			<!-- <p>More Information</p> -->
-			<!-- <p>
+			</ul>
+			<p>More Information</p>
+			<p>
 				Whilst people may want to have the operation as soon as possible, it’s
 				important to allow the knee to settle from the injury and regain a good
 				level of strength and function before surgery.
@@ -356,7 +356,7 @@
 			<p>
 				This pre-surgery phase also allows clinicians to gather information that
 				can be used to determine readiness to return to training and sport.
-			</p> -->
+			</p>
 		</div>
 	</div>
 </template>

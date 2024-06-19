@@ -146,7 +146,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="mt-5 d-flex justify-content-evenly" id="find-doc">
+			<!-- <div class="mt-5 d-flex justify-content-evenly" id="find-doc">
 				<form class="p-5" style="width: 500px">
 					<h3>Find Doctors Here</h3>
 					<div class="my-3 container">
@@ -170,22 +170,46 @@
 					alt="acl_image"
 					style="width: 20vw; height: 300px; opacity: 0.8"
 				/>
-			</div>
-			<div class="d-flex" style="background-color: rgb(252, 207, 108)">
-				<img
+			</div> -->
+			<!-- <img
 					src="/src/assets/contact.png"
 					class="card-img"
 					alt="acl_image"
 					style="width: 30vw; height: 300px; opacity: 0.8"
-				/>
-				<div class="p-5" id="contact">
-					<h4>Contact US</h4><br>
-					<span style="color: white"
-						>Email  : kvsai0998@gmail.com <br />
-						Phone No: 0424560458<br />
-					</span>
+				/> -->
+			<div
+				class="py-5 px-5 d-flex justify-content-evenly align-items-center"
+				id="contact"
+			>
+				<h4>Ways to contact us</h4>
+				<br />
+				<div
+					class="d-flex flex-column align-items-center gap-2 contact-container"
+				>
+					<i class="bi bi-envelope-fill fs-2 mx-3 icon mt-4"></i>
+					<p class="p-font">Email us</p>
+					<a
+						href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=kvsai0998@gmail.com"
+						target="_blank"
+					>
+						kvsai0998@gmail.com
+					</a>
+				</div>
+				<div
+					class="d-flex flex-column align-items-center gap-2 contact-container"
+				>
+					<i class="bi bi-telephone-fill fs-2 mx-3 icon mt-4"></i>
+					<p class="p-font">Call us</p>
+					<a href="##">0424560458</a>
 				</div>
 			</div>
+			<!-- <div class="pt-5 px-5" id="sponsers">
+					<h4>Proudly supported by</h4>
+					<br />
+					<img src="/src/assets/latrobe-red.png" height="20" />
+					<br /><br />
+					<img src="/src/assets/premax-blue.png" height="20" />
+				</div> -->
 			<CopyRight />
 		</div>
 	</div>
@@ -199,3 +223,39 @@ export default {
 	components: { NavBar, CopyRight },
 };
 </script>
+
+<style scoped>
+.contact-container {
+	height: 200px;
+	width: 250px;
+	border: 2px solid #f3f2f6;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 2px 10px -1px rgba(100, 116, 139, 0.2);
+}
+
+.icon {
+	height: 50px;
+	width: 50px;
+	border: 2px solid rgba(0, 119, 182, 0.9) !important;
+	color: rgba(0, 119, 182, 0.9) !important;
+	border-radius: 25px;
+	text-align: center;
+}
+
+.p-font {
+	color: rgba(0, 119, 182, 0.9) !important;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+#contact {
+	height: 300px;
+	width: 100%;
+	background-color: #e8f1f8;
+}
+
+#contact a {
+	color: rgba(0, 119, 182, 0.9) !important;
+}
+</style>
