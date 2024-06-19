@@ -6,7 +6,7 @@
 		</h4>
 		<div class="d-flex">
 			<a aria-current="page" href="#home">Home</a>
-			<a href="#find-doc">Find a Doctor</a>
+			<!-- <a href="#find-doc">Find a Doctor</a> -->
 			<a href="#about">About Us</a>
 			<a href="#contact">Contact Us</a>
 		</div>
